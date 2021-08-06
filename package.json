@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo 'no tests for this project'",
     "prebuild": "rm -rf dist",
-    "build": "NODE_ENV=production npx webpack --mode production",
+    "build": "cross-env NODE_ENV=production npx webpack --mode production",
     "start": "node bin/slack.js"
   },
   "repository": {
@@ -49,6 +49,7 @@
     "@babel/preset-react": "^7.13.13",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3",
     "css-loader": "^5.2.4",
     "eslint": "^7.26.0",
     "eslint-config-airbnb": "^18.2.1",
