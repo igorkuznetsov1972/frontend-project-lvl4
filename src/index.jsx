@@ -1,6 +1,13 @@
 // @ts-check
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App.jsx';
 
-import 'core-js/stable/index.js';
+ReactDOM.render(
+  <App />,
+  document.querySelector('#chat'),
+);
+/* import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
 import '../assets/application.scss';
@@ -28,4 +35,4 @@ card.append(cardBody);
 const container = document.querySelector('#chat');
 container.append(card);
 
-console.log('it works!');
+console.log('it works!'); */

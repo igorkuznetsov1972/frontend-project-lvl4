@@ -5,11 +5,23 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
-import Home from './Home.jsx';
-import Login from './LoginForm.jsx';
+import 'bootstrap/scss/bootstrap.scss';
+import HomePage from './HomePage.jsx';
+import LoginForm from './LoginForm.jsx';
 import NotFound from './NotFound.jsx';
 
 export default function App() {
+  function Home() {
+    return (
+      <HomePage />
+    );
+  }
+
+  function Login() {
+    return (
+      <LoginForm />
+    );
+  }
   return (
     <Router>
       <div>
@@ -19,7 +31,7 @@ export default function App() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/about">Login</Link>
+              <Link to="/login">Login</Link>
             </li>
           </ul>
         </nav>
