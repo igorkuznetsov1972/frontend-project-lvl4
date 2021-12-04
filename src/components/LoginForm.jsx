@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
-// import chatLoginImage from '../../assets/chatLoginImage.jpg';
+import chatLoginImageURL from './chatLoginImage.jpg';
 
 export default () => {
   const formik = useFormik({
@@ -28,7 +28,7 @@ export default () => {
               <div className="card shadow-sm">
                 <div className="card-body row p-5">
                   <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                    <img src="chatLoginImage.jpg" className="rounded-circle" alt="Войти" />
+                    <img src={chatLoginImageURL} className="rounded-circle" alt="Войти" />
                   </div>
                   <form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                     <h1 className="text-center mb-4">Войти</h1>
