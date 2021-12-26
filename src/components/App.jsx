@@ -8,7 +8,7 @@ import {
 import 'bootstrap/scss/bootstrap.scss';
 import HomePage from './HomePage.jsx';
 import LoginForm from './LoginForm.jsx';
-import NotFound from './NotFound.jsx';
+import NotFoundPage from './NotFound.jsx';
 
 export default function App() {
   function Home() {
@@ -22,6 +22,13 @@ export default function App() {
       <LoginForm />
     );
   }
+
+  function NotFound() {
+    return (
+      <NotFoundPage />
+    );
+  }
+
   return (
     <Router>
       <div>
