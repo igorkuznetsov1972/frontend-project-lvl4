@@ -1,60 +1,65 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   Link,
+  Navigate,
+  // useLocation,
 } from 'react-router-dom';
 import 'bootstrap/scss/bootstrap.scss';
-import HomePage from './HomePage.jsx';
+import { Button, Navbar, Nav } from 'react-bootstrap';
+import ChatPage from './ChatPage.jsx';
 import LoginForm from './LoginForm.jsx';
-import NotFoundPage from './NotFound.jsx';
+// import NotFoundPage from './NotFound.jsx';
 
-export default function App() {
-  function Home() {
-    return (
-      <HomePage />
-    );
-  }
+import authContext from '../contexts/index.jsx';
+import useAuth from '../hooks/index.jsx';
 
-  function Login() {
-    return (
-      <LoginForm />
-    );
-  }
+const AuthProvider = ({ children }) => {
+  const isTockenPresent = Boolean(localStorage.getItem('userId'));
+  const [loggedIn, setLoggedIn] = useState(isTockenPresent);
+  const logIn = () => setLoggedIn(true);
+  const logOut = () => {
+    localStorage.removeItem('userId');
+    setLoggedIn(false);
+  };
+  /* const checkPersistentLogInState = () => {
+    if (localStorage.getItem('userId')) setLoggedIn(true);
+  }; */
+  return (
+    <authContext.Provider value={{ loggedIn, logIn, logOut }}>
+      {children}
+    </authContext.Provider>
+  );
+};
 
-  function NotFound() {
-    return (
-      <NotFoundPage />
-    );
-  }
+const ChatRoute = () => {
+  const auth = useAuth();
+  //  auth.checkPersistentLogInState();
+  return (
+    auth.loggedIn ? <ChatPage /> : <LoginForm />
+  );
+};
+
+const AuthButton = () => {
+  const auth = useAuth();
 
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    auth.loggedIn
+      ? <Button onClick={auth.logOut}>Log out</Button>
+      : null
   );
-}
+};
+
+export default () => (
+  <AuthProvider>
+    <Router>
+      <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
+        <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+        <AuthButton />
+      </Navbar>
+      <ChatRoute />
+    </Router>
+  </AuthProvider>
+);
