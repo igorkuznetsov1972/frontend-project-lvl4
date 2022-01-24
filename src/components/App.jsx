@@ -7,8 +7,8 @@ import {
   Navigate,
   // useLocation,
 } from 'react-router-dom';
-import 'bootstrap/scss/bootstrap.scss';
-import { Button, Navbar, Nav } from 'react-bootstrap';
+import '../../assets/application.scss';
+import { Button, Navbar, Container } from 'react-bootstrap';
 import ChatPage from './ChatPage.jsx';
 import LoginForm from './LoginForm.jsx';
 // import NotFoundPage from './NotFound.jsx';
@@ -55,11 +55,15 @@ const AuthButton = () => {
 export default () => (
   <AuthProvider>
     <Router>
-      <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
-        <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-        <AuthButton />
-      </Navbar>
-      <ChatRoute />
+      <div className="d-flex flex-column h-100">
+        <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+          </Container>
+          <AuthButton />
+        </Navbar>
+        <ChatRoute />
+      </div>
     </Router>
   </AuthProvider>
 );
