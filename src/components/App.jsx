@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
+  // Routes,
+  // Route,
   Link,
-  Navigate,
+  // Navigate,
   // useLocation,
 } from 'react-router-dom';
 import '../../assets/application.scss';
