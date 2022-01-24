@@ -61,7 +61,6 @@ export default () => {
                 <Form className="col-12 col-md-6 mt-3 mt-mb-0">
                   <h1 className="text-center mb-4">Войти</h1>
                   <div className="form-floating mb-3 form-group">
-                    <label className="form-label" htmlFor="username">Ваш ник</label>
                     <Field
                       name="username"
                       autoComplete="username"
@@ -70,10 +69,10 @@ export default () => {
                       id="username"
                       className={fieldClass}
                     />
+                    <label className="form-label" htmlFor="username">Ваш ник</label>
                     <ErrorMessage name="username" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
                   </div>
                   <div className="form-floating mb-4 form-group">
-                    <label className="form-label" htmlFor="password">Пароль</label>
                     <Field
                       id="password"
                       name="password"
@@ -83,6 +82,7 @@ export default () => {
                       type="password"
                       className={fieldClass}
                     />
+                    <label className="form-label" htmlFor="password">Пароль</label>
                     <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
                   </div>
                   <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
