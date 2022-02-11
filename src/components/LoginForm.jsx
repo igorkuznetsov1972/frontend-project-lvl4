@@ -47,14 +47,14 @@ export default () => {
                   try {
                     const response = await axios.post(routes.loginPath(), values);
                     const { token } = response.data;
-                    localStorage.setItem('userId', JSON.stringify({ token }));
-                    console.log(localStorage.getItem('userId'));
-                    auth.logIn();
-                    // navigate(from);
+                    const { username } = values;
+                    localStorage.setItem('user', JSON.stringify({ token, username }));
+                    console.log(localStorage.getItem('user'));
+                    auth.setUser({ token, username });
                   } catch (e) {
                     setValidated(false);
                     setErrors({ password: 'Invalid username or password' });
-                    console.log(localStorage.getItem('userId'));
+                    console.log(localStorage.getItem('user'));
                   }
                 }}
               >
