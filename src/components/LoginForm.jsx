@@ -10,7 +10,7 @@ import {
 import cn from 'classnames';
 import useAuth from '../hooks/index.jsx';
 import routes from '../routes.js';
-import chatLoginImageURL from './chatLoginImage.jpg';
+import chatLoginImageURL from '../assets/chatLoginImage.jpg';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string()
