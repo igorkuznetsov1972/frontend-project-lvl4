@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import routes from '../../../routes.js';
@@ -18,7 +19,12 @@ const fetchChat = createAsyncThunk('chat/fetchChat', async () => {
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
-  reducers: {},
+  reducers: {
+    changeCurrentChannel: (state, { payload }) => {
+      const id = payload;
+      state.currentChannelId = payload;
+    },
+  },
   extraReducers: {
     [fetchChat.fulfilled]: (state, { payload }) => {
       const { messages, channels, currentChannelId } = payload;
@@ -33,6 +39,6 @@ const chatSlice = createSlice({
   },
 });
 
-export const { getChat } = chatSlice.actions;
+export const { getChat, changeCurrentChannel } = chatSlice.actions;
 export { fetchChat };
 export default chatSlice.reducer;
