@@ -24,6 +24,27 @@ const chatSlice = createSlice({
       const id = payload;
       state.currentChannelId = payload;
     },
+    addChannel: (state, { payload }) => {
+      const channel = payload;
+      state.channels.push(channel);
+    },
+    removeChannel: (state, { payload }) => {
+      const { id } = payload;
+      const channelId = Number(id);
+      state.channels = state.channels.filter((c) => c.id !== channelId);
+      state.messages = state.messages.filter((m) => m.channelId !== channelId);
+    },
+    renameChannel: (state, { payload }) => {
+      const { id, name } = payload;
+      const channelId = Number(id);
+      const channel = state.channels.find((c) => c.id === channelId);
+      if (!channel) return;
+      channel.name = name;
+    },
+    addMessage: (state, { payload }) => {
+      const message = payload;
+      state.messages.push(message);
+    },
   },
   extraReducers: {
     [fetchChat.fulfilled]: (state, { payload }) => {
