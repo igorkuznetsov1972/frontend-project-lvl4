@@ -60,6 +60,6 @@ const chatSlice = createSlice({
   },
 });
 
-export const { getChat, changeCurrentChannel } = chatSlice.actions;
+export const { getChat, changeCurrentChannel, addChannel, removeChannel, renameChannel, addMessage } = chatSlice.actions;
 export { fetchChat };
 export default chatSlice.reducer;
