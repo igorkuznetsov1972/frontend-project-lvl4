@@ -8,9 +8,11 @@ import {
 } from 'formik';
 import _ from 'lodash';
 import { fetchChat, changeCurrentChannel } from './slices/chatSlice';
+import useChat from '../../hooks/useChat'
 
 export default () => {
   const dispatch = useDispatch();
+  const { sendMessage, addChannel, renameChannel, removeChannel } = useChat();
 
   useEffect(() => {
     dispatch(fetchChat());
@@ -99,7 +101,7 @@ export default () => {
                     initialValues={{
                       newMessage: '',
                     }}
-                    onSubmit={(values) => console.log(values.newMessage)}
+                    onSubmit={(values) => sendMessage(values.newMessage)}
                   >
                     <Form className="py-1 border rounded-2">
                       <div className="input-group has-validation">
