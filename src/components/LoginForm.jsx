@@ -8,7 +8,7 @@ import {
   Alert, Container, Row, Col, Card,
 } from 'react-bootstrap';
 import cn from 'classnames';
-import useAuth from '../hooks/index.jsx';
+import useAuth from '../hooks/useAuth';
 import routes from '../routes.js';
 import chatLoginImageURL from '../assets/chatLoginImage.jpg';
 

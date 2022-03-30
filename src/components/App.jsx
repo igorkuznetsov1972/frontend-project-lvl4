@@ -14,7 +14,7 @@ import LoginForm from './LoginForm.jsx';
 // import NotFoundPage from './NotFound.jsx';
 
 import authContext from '../contexts/index.jsx';
-import useAuth from '../hooks/index.jsx';
+import useAuth from '../hooks/useAuth';
 
 const AuthProvider = ({ children }) => {
   const isUser = JSON.parse(localStorage.getItem('user'));
