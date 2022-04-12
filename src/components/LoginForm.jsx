@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
@@ -49,12 +50,10 @@ export default () => {
                     const { token } = response.data;
                     const { username } = values;
                     localStorage.setItem('user', JSON.stringify({ token, username }));
-                    console.log(localStorage.getItem('user'));
                     auth.setUser({ token, username });
                   } catch (e) {
                     setValidated(false);
                     setErrors({ password: 'Invalid username or password' });
-                    console.log(localStorage.getItem('user'));
                   }
                 }}
               >
