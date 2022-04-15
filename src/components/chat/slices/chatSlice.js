@@ -28,10 +28,10 @@ const chatSlice = createSlice({
       state.channels.push(channel);
     },
     removeChannel: (state, { payload }) => {
-      const { id } = payload;
-      const channelId = Number(id);
+      const channelId = Number(payload);
       state.channels = state.channels.filter((c) => c.id !== channelId);
       state.messages = state.messages.filter((m) => m.channelId !== channelId);
+      state.currentChannelId = 1;
     },
     renameChannel: (state, { payload }) => {
       const { id, name } = payload;

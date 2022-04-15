@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Container, Row, Col, Nav, Button, Spinner, Alert,
+  Container, Row, Col, Nav, Button, Spinner, Alert, ButtonGroup, Dropdown,
 } from 'react-bootstrap';
 import {
   Formik, Form, Field,
@@ -10,12 +10,15 @@ import _ from 'lodash';
 import { fetchChat, changeCurrentChannel } from './slices/chatSlice';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
+import AddChannelModal from './modals/addChannelModal.jsx';
+import RenameChannelModal from './modals/renameChannelModal.jsx';
+import DeleteChannelModal from './modals/deleteChannelModal.jsx';
 
 export default () => {
   const dispatch = useDispatch();
 
   const {
-    sendMessage,
+    sendMessage, newChannel, editChannel, deleteChannel,
   } = useChat();
   const auth = useAuth();
   const currentUser = auth.user.username;
@@ -37,6 +40,12 @@ export default () => {
   } = useSelector((state) => state.chat);
   const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
 
+  const [newChannelModalShow, setNewChannelModalShow] = React.useState(false);
+  const [renameChannelModalShow, setRenameChannelModalShow] = React.useState(false);
+  const [deleteChannelModalShow, setDeleteChannelModalShow] = React.useState(false);
+
+  const isActiveChannel = (id) => id === currentChannelId;
+
   switch (status) {
     case 'pending':
       return (
@@ -54,28 +63,75 @@ export default () => {
       );
     case 'fulfilled':
       return (
-        <Container className="h-100 my-4 overflow-hidden rounded shadow">
+        <Container fluid className="h-100 my-4 overflow-hidden rounded shadow  text-truncate">
           <Row className="h-100 bg-white flex-md-row">
             <Col xs={4} md={2} className="border-end pt-5 px-0 bg-light">
               <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
                 <span>Каналы</span>
-                <button type="button" className="p-0 text-primary btn btn-group-vertical">
+                <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => setNewChannelModalShow(true)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                   </svg>
                   <span className="visually-hidden">+</span>
                 </button>
+                <AddChannelModal
+                  show={newChannelModalShow}
+                  onHide={() => setNewChannelModalShow(false)}
+                  newChannel={newChannel}
+                />
               </div>
-              <Nav as="ul" className="nav flex-column nav-pills nav-fill px-2">
-                <Nav.Item as="li" className="w-100">
-                  { channels.map(({ id, name }) => (
-                    <Button className="w-100 rounded-0 text-start btn btn-secondary" key={id} onClick={handleClick(id)}>
-                      <span className="me-1">#</span>
-                      {name}
-                    </Button>
-                  ))}
-                </Nav.Item>
+              <Nav
+                as="ul"
+                fill="true"
+                className="px-2 d-inline text-truncate"
+                variant="pills"
+              >
+                { channels.map(({ id, name, removable }) => (removable
+                  ? (
+                    <Nav.Item as="li" className="w-100" key={name}>
+                      <Dropdown as={ButtonGroup} className="w-100 d-flex d-inline">
+                        <Button
+                          variant={isActiveChannel(id) ? 'secondary' : 'light'}
+                          className="w-100 rounded-0 text-start text-truncate"
+                          onClick={handleClick(id)}
+                        >
+                          {`#${name}`}
+                        </Button>
+                        <span className="visually-hidden">Управление каналом</span>
+                        <Dropdown.Toggle split variant={isActiveChannel(id) ? 'secondary' : 'light'} id={id.toString()} />
+                        <Dropdown.Menu>
+                          <Dropdown.Item eventKey="1" onClick={() => setRenameChannelModalShow(true)}>Переименовать</Dropdown.Item>
+                          <RenameChannelModal
+                            show={renameChannelModalShow}
+                            onHide={() => setRenameChannelModalShow(false)}
+                            editChannel={editChannel}
+                            id={id}
+                          />
+                          <Dropdown.Item eventKey="2" onClick={() => setDeleteChannelModalShow(true)}>Удалить</Dropdown.Item>
+                          <DeleteChannelModal
+                            show={deleteChannelModalShow}
+                            onHide={() => setDeleteChannelModalShow(false)}
+                            deleteChannel={deleteChannel}
+                            id={id}
+                          />
+                        </Dropdown.Menu>
+
+                      </Dropdown>
+                    </Nav.Item>
+                  )
+                  : (
+                    <Nav.Item as="li" className="w-100" key={name}>
+                      <Button
+                        className="w-100 rounded-0 text-start"
+                        variant={isActiveChannel(id) ? 'secondary' : 'light'}
+                        key={id.toString()}
+                        onClick={handleClick(id)}
+                      >
+                        {`#${name}`}
+                      </Button>
+                    </Nav.Item>
+                  ))) }
               </Nav>
             </Col>
             <Col className="col p-0 h-100">
@@ -109,6 +165,7 @@ export default () => {
                       newMessage: '',
                     }}
                     onSubmit={({ newMessage }, actions) => {
+                      console.log('Submitting new message');
                       sendMessage({
                         body: newMessage, channelId: currentChannelId, username: currentUser,
                       });

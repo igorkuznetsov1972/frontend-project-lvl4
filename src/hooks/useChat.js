@@ -18,27 +18,27 @@ export default () => {
   }, []);
 
   const sendMessage = (message) => {
+    console.log('Sending new message');
     socketRef.current.emit('newMessage', message, (response) => {
-      console.log(response.status);
+      console.log('New message sent', response.status);
     });
   };
   const newChannel = (name) => {
     socketRef.current.emit('newChannel', { name }, (response) => {
-      console.log(response.status);
+      console.log('New channel added', response.status);
     });
   };
   const editChannel = (id, name) => {
     socketRef.current.emit('renameChannel', { id, name }, (response) => {
-      console.log(response.status);
+      console.log('Channel renamed', response.status);
     });
   };
   const deleteChannel = (id) => {
     socketRef.current.emit('removeChannel', { id }, (response) => {
-      console.log(response.status);
+      console.log('Channel deleted', response.status);
     });
   };
   return {
     sendMessage, newChannel, editChannel, deleteChannel,
   };
 };
-// export default useChat;
