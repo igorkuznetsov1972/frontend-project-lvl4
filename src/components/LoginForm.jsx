@@ -4,24 +4,14 @@ import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
-import * as Yup from 'yup';
 import {
   Alert, Container, Row, Col, Card, Button,
 } from 'react-bootstrap';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth';
 import routes from '../routes.js';
 import chatLoginImageURL from '../assets/chatLoginImage.jpg';
-
-const LoginSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, 'Too Short!')
-    .max(20, 'Too Long!')
-    .required('Required'),
-  password: Yup.string()
-    .min(5, 'Too Short!')
-    .required('Required'),
-});
 
 export default (props) => {
   const auth = useAuth();
@@ -31,7 +21,7 @@ export default (props) => {
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });
-
+  const { t } = useTranslation();
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -46,7 +36,6 @@ export default (props) => {
                   username: '',
                   password: '',
                 }}
-                validationSchema={LoginSchema}
                 onSubmit={async (values, { setErrors }) => {
                   try {
                     const response = await axios.post(routes.loginPath(), values);
@@ -56,7 +45,7 @@ export default (props) => {
                     auth.setUser({ token, username });
                   } catch (e) {
                     setValidated(false);
-                    setErrors({ password: 'Invalid username or password' });
+                    setErrors({ password: t('Invalid username or password') });
                   }
                 }}
               >
@@ -66,26 +55,24 @@ export default (props) => {
                     <Field
                       name="username"
                       autoComplete="username"
-                      validate={LoginSchema}
                       placeholder="Ваш ник"
                       id="username"
                       className={fieldClass}
                     />
                     <label className="form-label" htmlFor="username">Ваш ник</label>
-                    <ErrorMessage name="username" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
+                    <ErrorMessage name="username" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <div className="form-floating mb-4 form-group">
                     <Field
                       id="password"
                       name="password"
                       autoComplete="current-password"
-                      validate={LoginSchema}
                       placeholder="Пароль"
                       type="password"
                       className={fieldClass}
                     />
                     <label className="form-label" htmlFor="password">Пароль</label>
-                    <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
+                    <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
                 </Form>
@@ -94,7 +81,7 @@ export default (props) => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет аккаунта?</span>
-                <Button variant="light" onClick={handleClick}>Зарегистрироваться</Button>
+                <Button variant="light" onClick={ handleClick }>{t('signup')}</Button>
               </div>
             </Card.Footer>
           </Card>

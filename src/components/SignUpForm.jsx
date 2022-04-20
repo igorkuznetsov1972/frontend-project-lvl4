@@ -9,18 +9,19 @@ import {
   Alert, Container, Row, Col, Card, Button,
 } from 'react-bootstrap';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth';
 import routes from '../routes.js';
 import chatSignUpImageURL from '../assets/chatSignUpImage.jpg';
 
 const SignUpSchema = Yup.object().shape({
   username: Yup.string()
-    .min(2, 'Too Short!')
-    .max(20, 'Too Long!')
-    .required('Required'),
+    .min(3, 'short')
+    .max(20, 'long')
+    .required('required'),
   password: Yup.string()
-    .min(5, 'Too Short!')
-    .required('Required'),
+    .min(6, 'short6')
+    .required('required'),
   passwordConfirmation: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 });
@@ -32,7 +33,8 @@ export default (props) => {
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });
-  useLayoutEffect(() => () => setSigninUp(false));
+  const { t } = useTranslation();
+//  useLayoutEffect(() => () => setSigninUp(false));
 
   return (
     <Container fluid className="h-100">
@@ -75,7 +77,7 @@ export default (props) => {
                       className={fieldClass}
                     />
                     <label className="form-label" htmlFor="username">Ваш ник</label>
-                    <ErrorMessage name="username" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
+                    <ErrorMessage name="username" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <div className="form-floating mb-4 form-group">
                     <Field
@@ -88,7 +90,7 @@ export default (props) => {
                       className={fieldClass}
                     />
                     <label className="form-label" htmlFor="password">Пароль</label>
-                    <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
+                    <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <div className="form-floating mb-4 form-group">
                     <Field
@@ -101,9 +103,9 @@ export default (props) => {
                       className={fieldClass}
                     />
                     <label className="form-label" htmlFor="passwordConfirmation">Пароль</label>
-                    <ErrorMessage name="passwordConfirmation" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
+                    <ErrorMessage name="passwordConfirmation" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
-                  <Button type="submit" variant="outline-primary" className="w-100 mb-3">Зарегистрироваться</Button>
+                  <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('dosignup')}</Button>
                 </Form>
               </Formik>
             </Card.Body>

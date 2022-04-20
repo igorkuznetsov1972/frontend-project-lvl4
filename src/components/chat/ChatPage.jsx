@@ -7,6 +7,7 @@ import {
   Formik, Form, Field,
 } from 'formik';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 import { fetchChat, changeCurrentChannel } from './slices/chatSlice';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
@@ -47,27 +48,35 @@ export default () => {
   const isActiveChannel = (id) => id === currentChannelId;
 
   switch (status) {
-    case 'pending':
+    case 'pending': {
+      const { t } = useTranslation();
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Spinner animation="border" role="status" />
-        </Container>
-      );
-    case 'rejected':
-      return (
-        <Container className="h-100 my-4 overflow-hidden rounded shadow">
-          <Alert variant="danger">
-            <Alert.Heading>Network error!</Alert.Heading>
+          <Alert variant="primary">
+            <Alert.Heading>{t('loading')}</Alert.Heading>
           </Alert>
         </Container>
       );
-    case 'fulfilled':
+    }
+    case 'rejected': {
+      const { t } = useTranslation();
+      return (
+        <Container className="h-100 my-4 overflow-hidden rounded shadow">
+          <Alert variant="danger">
+            <Alert.Heading>{t('network error')}</Alert.Heading>
+          </Alert>
+        </Container>
+      );
+    }
+    case 'fulfilled': {
+      const { t } = useTranslation();
       return (
         <Container fluid className="h-100 my-4 overflow-hidden rounded shadow">
           <Row className="h-100 bg-white flex-md-row">
             <Col xs={4} md={2} className="border-end pt-5 px-0 bg-light">
               <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
-                <span>Каналы</span>
+                <span>{t('çhannels')}</span>
                 <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => setNewChannelModalShow(true)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
@@ -101,14 +110,14 @@ export default () => {
                         <span className="visually-hidden">Управление каналом</span>
                         <Dropdown.Toggle split variant={isActiveChannel(id) ? 'secondary' : 'light'} id={id.toString()} />
                         <Dropdown.Menu>
-                          <Dropdown.Item eventKey="1" onClick={() => setRenameChannelModalShow(true)}>Переименовать</Dropdown.Item>
+                          <Dropdown.Item eventKey="1" onClick={() => setRenameChannelModalShow(true)}>{t('rename')}</Dropdown.Item>
                           <RenameChannelModal
                             show={renameChannelModalShow}
                             onHide={() => setRenameChannelModalShow(false)}
                             editChannel={editChannel}
                             id={id}
                           />
-                          <Dropdown.Item eventKey="2" onClick={() => setDeleteChannelModalShow(true)}>Удалить</Dropdown.Item>
+                          <Dropdown.Item eventKey="2" onClick={() => setDeleteChannelModalShow(true)}>{t('delete')}</Dropdown.Item>
                           <DeleteChannelModal
                             show={deleteChannelModalShow}
                             onHide={() => setDeleteChannelModalShow(false)}
@@ -147,7 +156,7 @@ export default () => {
                   <span className="text-muted">
                     {currentChannelMessages.length}
                     {' '}
-                    сообщения
+                    {t('message')}
                   </span>
                 </div>
                 <div id="messages-box" className="chat-messages overflow-auto px-5">
@@ -187,7 +196,7 @@ export default () => {
                             name="newMessage"
                             type="text"
                             aria-label="Новое сообщение"
-                            placeholder="Введите сообщение..."
+                            placeholder={t('new message')}
                             className="border-0 p-0 ps-2 form-control"
                           />
                           <div className="input-group-append">
@@ -206,13 +215,16 @@ export default () => {
           </Row>
         </Container>
       );
-    default:
+    }
+    default: {
+      const { t } = useTranslation();
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Alert variant="danger">
-            <Alert.Heading>Something went wrongr!</Alert.Heading>
+            <Alert.Heading>{t('general error')}</Alert.Heading>
           </Alert>
         </Container>
       );
+    }
   }
 };

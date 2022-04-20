@@ -2,6 +2,7 @@
 import { Modal, Alert } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import cn from 'classnames';
 import {
@@ -13,13 +14,14 @@ const RenameChannelModal = (props) => {
   const { channels } = useSelector((state) => state.chat);
   const channelsNames = channels.map(({ name }) => name);
   const [validated, setValidated] = useState(true);
+  const { t } = useTranslation();
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });
   const newChannelSchema = Yup.object().shape({
     name: Yup.mixed()
-      .notOneOf(channelsNames, 'Имя должно быть уникальным')
-      .required('Введите название канала'),
+      .notOneOf(channelsNames, 'uniquechannelname')
+      .required('required'),
   });
   return (
     <Modal
@@ -28,7 +30,7 @@ const RenameChannelModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Добавить канал
+          {t('rename')}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -58,14 +60,14 @@ const RenameChannelModal = (props) => {
                 { (msg) => {
                   setValidated(false);
                   return (
-                    <Alert variant="danger">{ msg }</Alert>
+                    <Alert variant="danger">{t(msg)}</Alert>
                   );
                 } }
 
               </ErrorMessage>
               <div className="d-flex justify-content-end">
-                <button type="button" onClick={onHide} className="me-2 btn btn-secondary">Отменить</button>
-                <button type="submit" className="btn btn-primary">Отправить</button>
+                <button type="button" onClick={onHide} className="me-2 btn btn-secondary">{t('cancel')}</button>
+                <button type="submit" className="btn btn-primary">{t('send')}</button>
               </div>
             </div>
           </Form>

@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import '../../assets/application.scss';
 import { Button, Navbar, Container } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import ChatPage from './chat/ChatPage.jsx';
 import LoginForm from './LoginForm.jsx';
 import LoginOrSignUp from './LoginOrSignUp.jsx';
@@ -45,23 +46,27 @@ const ChatRoute = () => {
 
 const AuthButton = () => {
   const auth = useAuth();
+  const { t } = useTranslation();
   return (
     auth.isUser
-      ? <Button onClick={auth.logOut}>Log out</Button>
+      ? <Button onClick={auth.logOut}>{t('logout')}</Button>
       : null
   );
 };
 
-export default () => (
-  <AuthProvider>
-    <div className="d-flex flex-column h-100">
-      <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-        </Container>
-        <AuthButton />
-      </Navbar>
-      <ChatRoute />
-    </div>
-  </AuthProvider>
-);
+export default () => {
+  const { t } = useTranslation();
+  return (
+    <AuthProvider>
+      <div className="d-flex flex-column h-100">
+        <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
+          </Container>
+          <AuthButton />
+        </Navbar>
+        <ChatRoute />
+      </div>
+    </AuthProvider>
+  );
+};
