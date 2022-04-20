@@ -156,7 +156,7 @@ export default () => {
                   <span className="text-muted">
                     {currentChannelMessages.length}
                     {' '}
-                    {t('message')}
+                    {t('message', { count: currentChannelMessages.length })}
                   </span>
                 </div>
                 <div id="messages-box" className="chat-messages overflow-auto px-5">
