@@ -1,13 +1,22 @@
-// @ts-check
+// @ts-ignore
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './components/chat/store/store.js';
 import App from './components/App.jsx';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+      </Routes>
+    </Router>
   </Provider>,
   document.querySelector('#chat'),
 );
