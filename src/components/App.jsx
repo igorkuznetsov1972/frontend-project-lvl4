@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
-  // Routes,
-  // Route,
+  Routes,
+  Route,
   Link,
   // Navigate,
   // useLocation,
@@ -11,6 +11,7 @@ import '../../assets/application.scss';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import ChatPage from './chat/ChatPage.jsx';
 import LoginForm from './LoginForm.jsx';
+import LoginOrSignUp from './LoginOrSignUp.jsx';
 // import NotFoundPage from './NotFound.jsx';
 
 import authContext from '../contexts/index.jsx';
@@ -19,6 +20,7 @@ import useAuth from '../hooks/useAuth';
 const AuthProvider = ({ children }) => {
   const isUser = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(isUser);
+  const [signinUp, setSigninUp] = useState(false);
   const logOut = () => {
     localStorage.removeItem('user');
     setUser(null);
@@ -26,7 +28,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <authContext.Provider value={{
-      logOut, user, setUser, isUser,
+      logOut, user, setUser, isUser, signinUp, setSigninUp,
     }}
     >
       {children}
@@ -37,13 +39,12 @@ const AuthProvider = ({ children }) => {
 const ChatRoute = () => {
   const auth = useAuth();
   return (
-    auth.isUser ? <ChatPage /> : <LoginForm />
+    auth.isUser ? <ChatPage /> : <LoginOrSignUp />
   );
 };
 
 const AuthButton = () => {
   const auth = useAuth();
-
   return (
     auth.isUser
       ? <Button onClick={auth.logOut}>Log out</Button>
@@ -53,16 +54,14 @@ const AuthButton = () => {
 
 export default () => (
   <AuthProvider>
-    <Router>
-      <div className="d-flex flex-column h-100">
-        <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
-          <Container>
-            <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-          </Container>
-          <AuthButton />
-        </Navbar>
-        <ChatRoute />
-      </div>
-    </Router>
+    <div className="d-flex flex-column h-100">
+      <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
+        <Container>
+          <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+        </Container>
+        <AuthButton />
+      </Navbar>
+      <ChatRoute />
+    </div>
   </AuthProvider>
 );

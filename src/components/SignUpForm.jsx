@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
@@ -11,9 +11,9 @@ import {
 import cn from 'classnames';
 import useAuth from '../hooks/useAuth';
 import routes from '../routes.js';
-import chatLoginImageURL from '../assets/chatLoginImage.jpg';
+import chatSignUpImageURL from '../assets/chatSignUpImage.jpg';
 
-const LoginSchema = Yup.object().shape({
+const SignUpSchema = Yup.object().shape({
   username: Yup.string()
     .min(2, 'Too Short!')
     .max(20, 'Too Long!')
@@ -21,53 +21,56 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string()
     .min(5, 'Too Short!')
     .required('Required'),
+  passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 });
 
 export default (props) => {
   const auth = useAuth();
   const { setSigninUp } = props;
-  const handleClick = () => setSigninUp(true);
   const [validated, setValidated] = useState(true);
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });
+  useLayoutEffect(() => () => setSigninUp(false));
 
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
         <Col xs={12} md={8} xxl={6}>
           <Card className="shadow-sm">
-            <Card.Body className="row p-5">
-              <Col xs={12} md={6} className="d-flex align-items-center justify-content-center">
-                <img src={chatLoginImageURL} className="rounded-circle" alt="Войти" />
-              </Col>
+            <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+              <div>
+                <img src={chatSignUpImageURL} className="rounded-circle" alt="Регистрация" />
+              </div>
               <Formik
                 initialValues={{
                   username: '',
                   password: '',
+                  passwordConfirmation: '',
                 }}
-                validationSchema={LoginSchema}
+                validationSchema={SignUpSchema}
                 onSubmit={async (values, { setErrors }) => {
                   try {
-                    const response = await axios.post(routes.loginPath(), values);
+                    const response = await axios.post(routes.signupPath(), values);
                     const { token } = response.data;
                     const { username } = values;
                     localStorage.setItem('user', JSON.stringify({ token, username }));
                     auth.setUser({ token, username });
                   } catch (e) {
                     setValidated(false);
-                    setErrors({ password: 'Invalid username or password' });
+                    setErrors({ username: 'Username already exists' });
                   }
                 }}
               >
                 <Form className="col-12 col-md-6 mt-3 mt-mb-0">
-                  <h1 className="text-center mb-4">Войти</h1>
+                  <h1 className="text-center mb-4">Регистрация</h1>
                   <div className="form-floating mb-3 form-group">
                     <Field
                       name="username"
                       autoComplete="username"
-                      validate={LoginSchema}
-                      placeholder="Ваш ник"
+                      validate={SignUpSchema}
+                      placeholder="Имя пользователя"
                       id="username"
                       className={fieldClass}
                     />
@@ -79,7 +82,7 @@ export default (props) => {
                       id="password"
                       name="password"
                       autoComplete="current-password"
-                      validate={LoginSchema}
+                      validate={SignUpSchema}
                       placeholder="Пароль"
                       type="password"
                       className={fieldClass}
@@ -87,16 +90,23 @@ export default (props) => {
                     <label className="form-label" htmlFor="password">Пароль</label>
                     <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
                   </div>
-                  <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+                  <div className="form-floating mb-4 form-group">
+                    <Field
+                      id="passwordConfirmation"
+                      name="passwordConfirmation"
+                      autoComplete="confirm-password"
+                      validate={SignUpSchema}
+                      placeholder="Подтвердите Пароль"
+                      type="passwordConfirmation"
+                      className={fieldClass}
+                    />
+                    <label className="form-label" htmlFor="passwordConfirmation">Пароль</label>
+                    <ErrorMessage name="passwordConfirmation" render={(msg) => <Alert variant="danger">{msg}</Alert>} />
+                  </div>
+                  <Button type="submit" variant="outline-primary" className="w-100 mb-3">Зарегистрироваться</Button>
                 </Form>
               </Formik>
             </Card.Body>
-            <Card.Footer className="p-4">
-              <div className="text-center">
-                <span>Нет аккаунта?</span>
-                <Button variant="light" onClick={handleClick}>Зарегистрироваться</Button>
-              </div>
-            </Card.Footer>
           </Card>
         </Col>
       </Row>
