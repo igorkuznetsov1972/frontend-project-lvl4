@@ -81,7 +81,7 @@ export default (props) => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет аккаунта?</span>
-                <Button variant="light" onClick={ handleClick }>{t('signup')}</Button>
+                <Button variant="light" onClick={handleClick}>{t('signup')}</Button>
               </div>
             </Card.Footer>
           </Card>

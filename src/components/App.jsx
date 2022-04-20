@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  // Navigate,
-  // useLocation,
-} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../assets/application.scss';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import ChatPage from './chat/ChatPage.jsx';
-import LoginForm from './LoginForm.jsx';
 import LoginOrSignUp from './LoginOrSignUp.jsx';
 // import NotFoundPage from './NotFound.jsx';
 

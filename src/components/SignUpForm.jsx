@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState /* , useLayoutEffect */ } from 'react';
 import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
@@ -26,15 +26,15 @@ const SignUpSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 });
 
-export default (props) => {
+export default (/* props */) => {
   const auth = useAuth();
-  const { setSigninUp } = props;
+  // const { setSigninUp } = props;
   const [validated, setValidated] = useState(true);
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });
   const { t } = useTranslation();
-//  useLayoutEffect(() => () => setSigninUp(false));
+  //  useLayoutEffect(() => () => setSigninUp(false));
 
   return (
     <Container fluid className="h-100">
