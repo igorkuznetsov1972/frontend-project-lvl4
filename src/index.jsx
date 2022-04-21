@@ -18,6 +18,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
       </Routes>
     </Router>
+    <App />
   </Provider>,
   document.querySelector('#chat'),
 );
