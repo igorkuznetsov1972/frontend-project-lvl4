@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRollbar } from '@rollbar/react';
 import {
   Container, Row, Col, Nav, Button, Spinner, Alert, ButtonGroup, Dropdown,
 } from 'react-bootstrap';
@@ -30,6 +31,7 @@ export default () => {
   }, []);
 
   const messageRef = useRef(null);
+  const rollbar = useRollbar();
 
   const handleClick = (id) => (e) => {
     e.preventDefault();
@@ -63,6 +65,7 @@ export default () => {
     }
     case 'rejected': {
       const { t } = useTranslation();
+      rollbar.error('Network error');
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Alert variant="danger">

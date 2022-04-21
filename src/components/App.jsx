@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Link } from 'react-router-dom';
 import '../../assets/application.scss';
 import 'react-toastify/scss/main.scss';
@@ -49,29 +50,37 @@ const AuthButton = () => {
 };
 
 export default () => {
+  const rollbarConfig = {
+    accessToken: 'f5b203bfa926476694a28cf17d1205e1',
+    environment: 'production',
+  };
   const { t } = useTranslation();
   return (
-    <AuthProvider>
-      <div className="d-flex flex-column h-100">
-        <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
-          <Container>
-            <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
-          </Container>
-          <AuthButton />
-        </Navbar>
-        <ChatRoute />
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-      </div>
-    </AuthProvider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <AuthProvider>
+          <div className="d-flex flex-column h-100">
+            <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
+              <Container>
+                <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
+              </Container>
+              <AuthButton />
+            </Navbar>
+            <ChatRoute />
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </div>
+        </AuthProvider>
+      </ErrorBoundary>
+    </RollbarProvider>
   );
 };

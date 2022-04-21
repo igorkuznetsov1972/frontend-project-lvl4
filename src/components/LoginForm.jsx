@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
+import { useRollbar } from '@rollbar/react';
 import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
@@ -23,6 +24,8 @@ export default (props) => {
     'is-invalid': !validated,
   });
   const { t } = useTranslation();
+  const rollbar = useRollbar();
+
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -46,6 +49,7 @@ export default (props) => {
                     auth.setUser({ token, username });
                   } catch (e) {
                     setValidated(false);
+                    rollbar.error('Error loggin in', e);
                     if (e.message === 'Network Error') toast.error(t('network error'));
                     else setErrors({ password: t('Invalid username or password') });
                   }
