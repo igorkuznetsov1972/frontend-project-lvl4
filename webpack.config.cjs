@@ -6,6 +6,7 @@ const path = require('path');
 const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
+  entry: './src/index.jsx',
   mode,
   resolve: {
     extensions: ['.js', '.jsx'],
