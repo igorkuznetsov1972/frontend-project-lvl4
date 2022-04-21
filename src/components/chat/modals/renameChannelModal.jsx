@@ -2,6 +2,7 @@
 import { Modal, Alert } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import * as filter from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import cn from 'classnames';
@@ -17,6 +18,7 @@ const RenameChannelModal = (props) => {
   const channelsNames = channels.map(({ name }) => name);
   const [validated, setValidated] = useState(true);
   const { t } = useTranslation();
+  filter.loadDictionary('ru');
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });
@@ -43,7 +45,7 @@ const RenameChannelModal = (props) => {
           validationSchema={newChannelSchema}
           onSubmit={(values) => {
             const { name } = values;
-            editChannel(id, name);
+            editChannel(id, filter.clean(name));
             onHide();
           }}
         >

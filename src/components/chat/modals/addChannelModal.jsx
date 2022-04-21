@@ -2,6 +2,7 @@
 import { Modal, Alert } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import * as filter from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import cn from 'classnames';
@@ -18,6 +19,7 @@ const AddChannelModal = (props) => {
     'is-invalid': !validated,
   });
   const { t } = useTranslation();
+  filter.loadDictionary('ru');
   const newChannelSchema = Yup.object().shape({
     name: Yup.mixed()
       .notOneOf(channelsNames, 'uniquechannelname')
@@ -41,7 +43,7 @@ const AddChannelModal = (props) => {
           validationSchema={newChannelSchema}
           onSubmit={(values) => {
             const { name } = values;
-            newChannel(name);
+            newChannel(filter.clean(name));
             onHide();
           }}
         >
