@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/application.scss';
+import 'react-toastify/scss/main.scss';
 import { Button, Navbar, Container } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import ChatPage from './chat/ChatPage.jsx';
 import LoginOrSignUp from './LoginOrSignUp.jsx';
@@ -58,6 +60,17 @@ export default () => {
           <AuthButton />
         </Navbar>
         <ChatRoute />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     </AuthProvider>
   );

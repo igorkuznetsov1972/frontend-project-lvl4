@@ -20,7 +20,7 @@ export default {
     'new message': 'Введите сообщение...',
     root: 'Hexlet Chat',
     loading: 'Загрузка',
-    'network error': 'Сеть недоступна!',
+    'network error': 'Ошибка соединения',
     'general error': 'Что-то пошло не так!',
     short: 'От 3 до 20 символов',
     short6: 'Не менее 6 символов',
@@ -32,5 +32,8 @@ export default {
     cancel: 'Отменить',
     send: 'Отправить',
     sure: 'Уверены?',
+    channelcreated: 'Канал создан',
+    channelrenamed: 'Канал переименован',
+    channeldeleted: 'Канал удален',
   },
 };

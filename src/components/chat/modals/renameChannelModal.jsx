@@ -10,7 +10,9 @@ import {
 } from 'formik';
 
 const RenameChannelModal = (props) => {
-  const { show, onHide, editChannel } = props;
+  const {
+    show, onHide, editChannel, id,
+  } = props;
   const { channels } = useSelector((state) => state.chat);
   const channelsNames = channels.map(({ name }) => name);
   const [validated, setValidated] = useState(true);
@@ -41,7 +43,7 @@ const RenameChannelModal = (props) => {
           validationSchema={newChannelSchema}
           onSubmit={(values) => {
             const { name } = values;
-            editChannel(name);
+            editChannel(id, name);
             onHide();
           }}
         >

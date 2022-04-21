@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import {
   addChannel, removeChannel, renameChannel, addMessage,
 } from '../components/chat/slices/chatSlice.js';
@@ -8,6 +10,7 @@ import {
 export default () => {
   const dispatch = useDispatch();
   const socketRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     socketRef.current = io();
@@ -25,17 +28,23 @@ export default () => {
   };
   const newChannel = (name) => {
     socketRef.current.emit('newChannel', { name }, (response) => {
-      console.log('New channel added', response.status);
+      console.log(response.status);
+      if (response.status === 'ok') toast.success(t('channelcreated'));
+      else toast.error(t('general error'));
     });
   };
   const editChannel = (id, name) => {
     socketRef.current.emit('renameChannel', { id, name }, (response) => {
       console.log('Channel renamed', response.status);
+      if (response.status === 'ok') toast.success(t('channelrenamed'));
+      else toast.error(t('general error'));
     });
   };
   const deleteChannel = (id) => {
     socketRef.current.emit('removeChannel', { id }, (response) => {
       console.log('Channel deleted', response.status);
+      if (response.status === 'ok') toast.success(t('channeldeleted'));
+      else toast.error(t('general error'));
     });
   };
   return {

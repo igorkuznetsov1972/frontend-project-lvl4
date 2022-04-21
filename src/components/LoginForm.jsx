@@ -4,6 +4,7 @@ import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import { toast } from 'react-toastify';
 import {
   Alert, Container, Row, Col, Card, Button,
 } from 'react-bootstrap';
@@ -45,7 +46,8 @@ export default (props) => {
                     auth.setUser({ token, username });
                   } catch (e) {
                     setValidated(false);
-                    setErrors({ password: t('Invalid username or password') });
+                    if (e.message === 'Network Error') toast.error(t('network error'));
+                    else setErrors({ password: t('Invalid username or password') });
                   }
                 }}
               >
