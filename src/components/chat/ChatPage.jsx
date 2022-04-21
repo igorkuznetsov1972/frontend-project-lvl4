@@ -8,6 +8,7 @@ import {
 } from 'formik';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
+import * as filter from 'leo-profanity';
 import { fetchChat, changeCurrentChannel } from './slices/chatSlice';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
@@ -46,6 +47,7 @@ export default () => {
   const [deleteChannelModalShow, setDeleteChannelModalShow] = React.useState(false);
 
   const isActiveChannel = (id) => id === currentChannelId;
+  filter.loadDictionary('ru');
 
   switch (status) {
     case 'pending': {
@@ -176,7 +178,9 @@ export default () => {
                     onSubmit={({ newMessage }, actions) => {
                       console.log('Submitting new message');
                       sendMessage({
-                        body: newMessage, channelId: currentChannelId, username: currentUser,
+                        body: filter.clean(newMessage),
+                        channelId: currentChannelId,
+                        username: currentUser,
                       });
                       actions.resetForm();
                       messageRef.current.focus();
