@@ -10,6 +10,9 @@ import store from './components/chat/store/store.js';
 import App from './components/App.jsx';
 import './i18n';
 
+// const container = document.getElementById('chat');
+// console.log(container);
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
@@ -19,5 +22,5 @@ ReactDOM.render(
     </Router>
     <App />
   </Provider>,
-  document.querySelector('#chat'),
+  document.getElementById('chat'),
 );
