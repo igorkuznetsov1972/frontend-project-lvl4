@@ -10,10 +10,7 @@ import store from './components/chat/store/store.js';
 import App from './components/App.jsx';
 import './i18n';
 
-// const container = document.getElementById('chat');
-// console.log(container);
-
-ReactDOM.render(
+export default () => (
   <Provider store={store}>
     <Router>
       <Routes>
@@ -21,6 +18,5 @@ ReactDOM.render(
       </Routes>
     </Router>
     <App />
-  </Provider>,
-  document.getElementById('chat'),
+  </Provider>
 );
