@@ -49,7 +49,8 @@ export default () => {
   const [deleteChannelModalShow, setDeleteChannelModalShow] = React.useState(false);
 
   const isActiveChannel = (id) => id === currentChannelId;
-  filter.loadDictionary('ru');
+  // filter.loadDictionary('en');
+  console.log(filter.list());
 
   switch (status) {
     case 'pending': {

@@ -8,7 +8,6 @@ import {
 import { Provider } from 'react-redux';
 import store from './components/chat/store/store.js';
 import App from './components/App.jsx';
-import './i18n';
 
 export default () => (
   <Provider store={store}>

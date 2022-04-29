@@ -5,32 +5,13 @@ import '../../assets/application.scss';
 import 'react-toastify/scss/main.scss';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 import ChatPage from './chat/ChatPage.jsx';
 import LoginOrSignUp from './LoginOrSignUp.jsx';
-// import NotFoundPage from './NotFound.jsx';
-
-import authContext from '../contexts/index.jsx';
 import useAuth from '../hooks/useAuth';
-
-const AuthProvider = ({ children }) => {
-  const isUser = JSON.parse(localStorage.getItem('user'));
-  const [user, setUser] = useState(isUser);
-  const [signinUp, setSigninUp] = useState(false);
-  const logOut = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-  };
-
-  return (
-    <authContext.Provider value={{
-      logOut, user, setUser, isUser, signinUp, setSigninUp,
-    }}
-    >
-      {children}
-    </authContext.Provider>
-  );
-};
+import AuthProvider from './providers/authProvider.jsx';
+import ApiProvider from './providers/apiProvider.jsx';
 
 const ChatRoute = () => {
   const auth = useAuth();
@@ -58,28 +39,32 @@ export default () => {
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
-        <AuthProvider>
-          <div className="d-flex flex-column h-100">
-            <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
-              <Container>
-                <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
-              </Container>
-              <AuthButton />
-            </Navbar>
-            <ChatRoute />
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </div>
-        </AuthProvider>
+        <I18nextProvider i18n={i18n}>
+          <ApiProvider>
+            <AuthProvider>
+              <div className="d-flex flex-column h-100">
+                <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
+                  <Container>
+                    <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
+                  </Container>
+                  <AuthButton />
+                </Navbar>
+                <ChatRoute />
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
+              </div>
+            </AuthProvider>
+          </ApiProvider>
+        </I18nextProvider>
       </ErrorBoundary>
     </RollbarProvider>
   );
