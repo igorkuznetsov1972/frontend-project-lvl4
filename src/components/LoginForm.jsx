@@ -88,7 +88,7 @@ export default () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет аккаунта?</span>
-                <Button variant="light" as={Link} to="/signup">{t('signup')}</Button>
+                <Link to="/signup">{t('signup')}</Link>
               </div>
             </Card.Footer>
           </Card>
