@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-import { io } from 'socket.io-client';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -11,7 +10,6 @@ import { ApiContext } from '../../contexts/index.jsx';
 export default ({ children, socket }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  console.log('socket', socket)
   socket.on('newMessage', (message) => dispatch(addMessage(message)));
   socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
   socket.on('removeChannel', ({ id }) => dispatch(removeChannel(id)));
