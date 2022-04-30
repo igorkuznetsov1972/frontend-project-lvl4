@@ -8,7 +8,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
-  Alert, Container, Row, Col, Card, Button,
+  Alert, Container, Row, Col, Card,
 } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
