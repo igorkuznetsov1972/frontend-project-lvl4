@@ -44,7 +44,7 @@ const RenameChannelModal = (props) => {
           validationSchema={newChannelSchema}
           onSubmit={(values) => {
             const { name } = values;
-            editChannel(id, filter.clean(name));
+            editChannel(id, filter.clean(name, '*', 1));
             onHide();
           }}
         >

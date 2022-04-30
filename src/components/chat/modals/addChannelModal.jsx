@@ -42,7 +42,7 @@ const AddChannelModal = (props) => {
           validationSchema={newChannelSchema}
           onSubmit={(values) => {
             const { name } = values;
-            newChannel(filter.clean(name));
+            newChannel(filter.clean(name, '*', 1));
             onHide();
           }}
         >
