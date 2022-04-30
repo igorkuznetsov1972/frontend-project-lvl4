@@ -18,7 +18,6 @@ const RenameChannelModal = (props) => {
   const channelsNames = channels.map(({ name }) => name);
   const [validated, setValidated] = useState(true);
   const { t } = useTranslation();
-  filter.loadDictionary('ru');
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });

@@ -19,7 +19,6 @@ const AddChannelModal = (props) => {
     'is-invalid': !validated,
   });
   const { t } = useTranslation();
-  filter.loadDictionary('ru');
   const newChannelSchema = Yup.object().shape({
     name: Yup.mixed()
       .notOneOf(channelsNames, 'uniquechannelname')

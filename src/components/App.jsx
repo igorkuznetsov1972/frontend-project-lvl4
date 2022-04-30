@@ -31,41 +31,31 @@ const AuthButton = () => {
 };
 
 export default () => {
-  const rollbarConfig = {
+  /* const rollbarConfig = {
     accessToken: 'f5b203bfa926476694a28cf17d1205e1',
     environment: 'production',
-  };
+  }; */
   const { t } = useTranslation();
   return (
-    <RollbarProvider config={rollbarConfig}>
-      <ErrorBoundary>
-        <I18nextProvider i18n={i18n}>
-          <ApiProvider>
-            <AuthProvider>
-              <div className="d-flex flex-column h-100">
-                <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
-                  <Container>
-                    <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
-                  </Container>
-                  <AuthButton />
-                </Navbar>
-                <ChatRoute />
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                />
-              </div>
-            </AuthProvider>
-          </ApiProvider>
-        </I18nextProvider>
-      </ErrorBoundary>
-    </RollbarProvider>
+    <div className="d-flex flex-column h-100">
+      <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
+        <Container>
+          <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
+        </Container>
+        <AuthButton />
+      </Navbar>
+      <ChatRoute />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </div>
   );
 };
