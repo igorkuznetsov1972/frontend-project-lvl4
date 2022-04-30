@@ -5,7 +5,7 @@ import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   Alert, Container, Row, Col, Card, Button,
@@ -19,7 +19,6 @@ import chatLoginImageURL from '../assets/chatLoginImage.jpg';
 export default () => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const handleClick = () => navigate('/signup');
   const [validated, setValidated] = useState(true);
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
@@ -89,7 +88,7 @@ export default () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет аккаунта?</span>
-                <Button variant="light" onClick={handleClick}>{t('signup')}</Button>
+                <Button variant="light" as={Link} to="/signup">{t('signup')}</Button>
               </div>
             </Card.Footer>
           </Card>
