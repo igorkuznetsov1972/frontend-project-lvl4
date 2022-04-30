@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
   Link,
-  Outlet,
+  Navigate,
 } from 'react-router-dom';
 import '../../assets/application.scss';
 import 'react-toastify/scss/main.scss';
@@ -12,15 +12,15 @@ import { Button, Navbar, Container } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import ChatPage from './chat/ChatPage.jsx';
-import LoginOrSignUp from './LoginOrSignUp.jsx';
 import useAuth from '../hooks/useAuth';
-import LoginForm from './LoginForm';
-import SignUpForm from './SignUpForm';
+import LoginForm from './LoginForm.jsx';
+import SignUpForm from './SignUpForm.jsx';
+import NotFoundPage from './NotFound.jsx';
 
 const ChatRoute = () => {
   const auth = useAuth();
   return (
-    auth.isUser ? <ChatPage /> : <LoginOrSignUp />
+    auth.isUser ? <ChatPage /> : <Navigate to="/login" />
   );
 };
 
@@ -41,19 +41,18 @@ export default () => {
       <div className="d-flex flex-column h-100">
         <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
           <Container>
-            <Navbar.Brand as={Link} to="/chat">{t('root')}</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
           </Container>
           <AuthButton />
         </Navbar>
         <Routes>
-          <Route path="/login" element={LoginForm} />
-          <Route path="/signup" element={SignUpForm} />
-          <Route path="/chat" element={ChatRoute}>
-            <Route path="" element={ChatPage} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignUpForm />} />
+          <Route path="/" element={<ChatRoute />}>
+            <Route path="" element={<ChatPage />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        <Outlet />
-        <ChatRoute />
         <ToastContainer
           position="top-right"
           autoClose={5000}

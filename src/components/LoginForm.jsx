@@ -5,6 +5,7 @@ import axios from 'axios';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   Alert, Container, Row, Col, Card, Button,
@@ -15,10 +16,10 @@ import useAuth from '../hooks/useAuth';
 import routes from '../routes.js';
 import chatLoginImageURL from '../assets/chatLoginImage.jpg';
 
-export default (props) => {
+export default () => {
   const auth = useAuth();
-  const { setSigninUp } = props;
-  const handleClick = () => setSigninUp(true);
+  const navigate = useNavigate();
+  const handleClick = () => navigate('/signup');
   const [validated, setValidated] = useState(true);
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
@@ -47,6 +48,7 @@ export default (props) => {
                     const { username } = values;
                     localStorage.setItem('user', JSON.stringify({ token, username }));
                     auth.setUser({ token, username });
+                    navigate('/');
                   } catch (e) {
                     setValidated(false);
                     rollbar.error('Error loggin in', e);
