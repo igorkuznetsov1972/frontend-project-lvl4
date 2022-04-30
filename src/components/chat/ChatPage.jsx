@@ -116,7 +116,8 @@ export default () => {
                           {`#${name}`}
                         </Button>
                         <span className="visually-hidden">Управление каналом</span>
-                        <Dropdown.Toggle split variant={isActiveChannel(id) ? 'secondary' : 'light'} id={id.toString()} />
+                        <Dropdown.Toggle split variant={ isActiveChannel(id) ? 'secondary' : 'light' } id={ id.toString() } />
+                        <span className="visually-hidden">Управление каналом</span>
                         <Dropdown.Menu>
                           <Dropdown.Item eventKey="1" onClick={() => setRenameChannelModalShow(true)}>{t('rename')}</Dropdown.Item>
                           <RenameChannelModal
