@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import {
   Alert, Container, Row, Col, Card, Button,
 } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth';
@@ -28,13 +29,12 @@ const SignUpSchema = Yup.object().shape({
 
 export default (/* props */) => {
   const auth = useAuth();
-  // const { setSigninUp } = props;
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(true);
   const fieldClass = cn('form-control', {
     'is-invalid': !validated,
   });
   const { t } = useTranslation();
-  //  useLayoutEffect(() => () => setSigninUp(false));
 
   return (
     <Container fluid className="h-100">
@@ -59,6 +59,7 @@ export default (/* props */) => {
                     const { username } = values;
                     localStorage.setItem('user', JSON.stringify({ token, username }));
                     auth.setUser({ token, username });
+                    navigate('/');
                   } catch (e) {
                     setValidated(false);
                     setErrors({ username: 'Username already exists' });
