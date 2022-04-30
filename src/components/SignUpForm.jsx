@@ -76,7 +76,7 @@ export default (/* props */) => {
                       id="username"
                       className={fieldClass}
                     />
-                    <label className="form-label" htmlFor="username">Ваш ник</label>
+                    <label className="form-label" htmlFor="username">{t('username')}</label>
                     <ErrorMessage name="username" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <div className="form-floating mb-4 form-group">
@@ -89,7 +89,7 @@ export default (/* props */) => {
                       type="password"
                       className={fieldClass}
                     />
-                    <label className="form-label" htmlFor="password">Пароль</label>
+                    <label className="form-label" htmlFor="password">{t('password')}</label>
                     <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <div className="form-floating mb-4 form-group">
@@ -102,7 +102,7 @@ export default (/* props */) => {
                       type="passwordConfirmation"
                       className={fieldClass}
                     />
-                    <label className="form-label" htmlFor="passwordConfirmation">Пароль</label>
+                    <label className="form-label" htmlFor="passwordConfirmation">{t('confirm password')}</label>
                     <ErrorMessage name="passwordConfirmation" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('dosignup')}</Button>

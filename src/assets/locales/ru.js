@@ -1,11 +1,13 @@
 export default {
   translation: {
-    username: 'Ваш ник',
+    username: 'Имя пользователя',
+    nickname: 'Ваш ник',
     password: 'Пароль',
+    'confirm password': 'Подтвердите пароль',
     login: 'Войти',
     logout: 'Выйти',
     'Invalid username or password': 'Неверные имя пользователя или пароль',
-    'not registred': 'Нет аккаунта?',
+    'not registered': 'Нет аккаунта?',
     signup: 'Регистрация',
     dosignup: 'Зарегистрироваться',
     channels: 'Каналы',

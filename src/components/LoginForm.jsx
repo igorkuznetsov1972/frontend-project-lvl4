@@ -66,7 +66,7 @@ export default () => {
                       id="username"
                       className={fieldClass}
                     />
-                    <label className="form-label" htmlFor="username">Ваш ник</label>
+                    <label className="form-label" htmlFor="username">{t('nickname')}</label>
                     <ErrorMessage name="username" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <div className="form-floating mb-4 form-group">
@@ -78,16 +78,19 @@ export default () => {
                       type="password"
                       className={fieldClass}
                     />
-                    <label className="form-label" htmlFor="password">Пароль</label>
+                    <label className="form-label" htmlFor="password">{t('password')}</label>
                     <ErrorMessage name="password" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
-                  <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+                  <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('login')}</button>
                 </Form>
               </Formik>
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span>
+                <span>
+                  { t('not registered') }
+                  {' '}
+                </span>
                 <Link to="/signup">{t('signup')}</Link>
               </div>
             </Card.Footer>
