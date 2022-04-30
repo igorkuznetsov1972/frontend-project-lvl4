@@ -4,7 +4,7 @@ export default {
     password: 'Пароль',
     login: 'Войти',
     logout: 'Выйти',
-    'Invalid username or password': 'Неверное имя пользователя или пароль',
+    'Invalid username or password': 'Неверные имя пользователя или пароль',
     'not registred': 'Нет аккаунта?',
     signup: 'Регистрация',
     dosignup: 'Зарегистрироваться',
