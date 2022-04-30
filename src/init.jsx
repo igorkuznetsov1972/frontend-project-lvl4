@@ -26,11 +26,7 @@ export default (socket) => (
         <I18nextProvider i18n={i18n}>
           <ApiProvider socket={socket}>
             <AuthProvider>
-              <Router>
-                <Routes>
-                  <Route path="/" element={<App />} />
-                </Routes>
-              </Router>
+              <App />
             </AuthProvider>
           </ApiProvider>
         </I18nextProvider>

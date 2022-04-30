@@ -40,7 +40,7 @@ export default () => {
     <div className="d-flex flex-column h-100">
       <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
         <Container>
-          <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
+          <Navbar.Brand>{t('root')}</Navbar.Brand>
         </Container>
         <AuthButton />
       </Navbar>
