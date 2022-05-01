@@ -11,6 +11,7 @@ import App from './components/App.jsx';
 const rollbarConfig = {
   accessToken: 'f5b203bfa926476694a28cf17d1205e1',
   environment: 'production',
+  enabled: false,
 };
 
 export default (socket) => (
