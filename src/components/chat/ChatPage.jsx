@@ -115,7 +115,7 @@ export default () => {
                         >
                           {`#${name}`}
                         </Button>
-                        <Dropdown.Toggle as={Button} split name="Управление каналом" variant={isActiveChannel(id) ? 'secondary' : 'light'} id={id.toString()}>
+                        <Dropdown.Toggle split name="Управление каналом" variant={isActiveChannel(id) ? 'secondary' : 'light'} id={id.toString()}>
                           <span className="visually-hidden">Управление каналом</span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>

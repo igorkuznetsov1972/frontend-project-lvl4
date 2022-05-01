@@ -36,6 +36,6 @@ export default {
     sure: 'Уверены?',
     channelcreated: 'Канал создан',
     channelrenamed: 'Канал переименован',
-    channeldeleted: 'Канал удален',
+    channeldeleted: 'Канал удалён',
   },
 };
