@@ -75,6 +75,3 @@ const AddChannelModal = (props) => {
   );
 };
 export default AddChannelModal;
-
-
-
