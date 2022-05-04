@@ -28,7 +28,7 @@ export default () => {
 
   useEffect(() => {
     dispatch(fetchChat());
-  }, []);
+  }, [dispatch]);
 
   const messageRef = useRef(null);
   const rollbar = useRollbar();
