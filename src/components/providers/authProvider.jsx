@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AuthContext } from '../../contexts/index.jsx';
 
-export default ({ children }) => {
+const AuthProvider = ({ children }) => {
   const isUser = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(isUser);
   const [signinUp, setSigninUp] = useState(false);
@@ -19,3 +19,5 @@ export default ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;

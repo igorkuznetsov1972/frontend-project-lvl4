@@ -7,7 +7,7 @@ import {
 } from '../chat/slices/chatSlice.js';
 import { ApiContext } from '../../contexts/index.jsx';
 
-export default ({ children, socket }) => {
+const ApiProvider = ({ children, socket }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   socket.on('newMessage', (message) => dispatch(addMessage(message)));
@@ -51,3 +51,5 @@ export default ({ children, socket }) => {
     </ApiContext.Provider>
   );
 };
+
+export default ApiProvider;

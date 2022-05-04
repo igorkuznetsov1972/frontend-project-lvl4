@@ -16,7 +16,7 @@ import useAuth from '../hooks/useAuth';
 import routes from '../routes.js';
 import chatLoginImageURL from '../assets/chatLoginImage.jpg';
 
-export default () => {
+const LoginForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(true);
@@ -101,3 +101,5 @@ export default () => {
 
   );
 };
+
+export default LoginForm;

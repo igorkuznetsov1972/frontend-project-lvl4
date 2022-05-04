@@ -17,7 +17,7 @@ import AddChannelModal from './modals/addChannelModal.jsx';
 import RenameChannelModal from './modals/renameChannelModal.jsx';
 import DeleteChannelModal from './modals/deleteChannelModal.jsx';
 
-export default () => {
+const ChatPage = () => {
   const dispatch = useDispatch();
 
   const {
@@ -239,3 +239,5 @@ export default () => {
     }
   }
 };
+
+export default ChatPage;

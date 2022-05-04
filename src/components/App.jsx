@@ -33,8 +33,7 @@ const AuthButton = () => {
       : null
   );
 };
-
-export default () => {
+const App = () => {
   const { t } = useTranslation();
   return (
     <Router>
@@ -68,3 +67,5 @@ export default () => {
     </Router>
   );
 };
+
+export default App;

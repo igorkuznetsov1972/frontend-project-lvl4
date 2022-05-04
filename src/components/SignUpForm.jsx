@@ -27,7 +27,7 @@ const SignUpSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 });
 
-export default (/* props */) => {
+const SignUpForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(true);
@@ -117,3 +117,5 @@ export default (/* props */) => {
 
   );
 };
+
+export default SignUpForm;

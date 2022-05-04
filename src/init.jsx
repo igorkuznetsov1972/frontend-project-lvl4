@@ -14,7 +14,7 @@ const rollbarConfig = {
   enabled: true,
 };
 
-export default (socket) => (
+const init = (socket) => (
   <Provider store={store}>
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
@@ -29,3 +29,5 @@ export default (socket) => (
     </RollbarProvider>
   </Provider>
 );
+
+export default init;
