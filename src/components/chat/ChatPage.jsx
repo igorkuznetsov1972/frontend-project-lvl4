@@ -53,10 +53,11 @@ const ChatPage = () => {
   filter.clearList();
   filter.add(filter.getDictionary('en'));
   filter.add(filter.getDictionary('ru'));
+  const { t } = useTranslation();
 
   switch (status) {
     case 'pending': {
-      const { t } = useTranslation();
+      // const { t } = useTranslation();
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Spinner animation="border" role="status" />
@@ -67,7 +68,7 @@ const ChatPage = () => {
       );
     }
     case 'rejected': {
-      const { t } = useTranslation();
+    //  const { t } = useTranslation();
       rollbar.error('Network error');
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
@@ -78,7 +79,7 @@ const ChatPage = () => {
       );
     }
     case 'fulfilled': {
-      const { t } = useTranslation();
+    //  const { t } = useTranslation();
       return (
         <Container fluid className="h-100 my-4 overflow-hidden rounded shadow">
           <Row className="h-100 bg-white flex-md-row">
@@ -228,7 +229,7 @@ const ChatPage = () => {
       );
     }
     default: {
-      const { t } = useTranslation();
+      // const { t } = useTranslation();
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Alert variant="danger">
