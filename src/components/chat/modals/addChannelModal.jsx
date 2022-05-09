@@ -29,7 +29,7 @@ const AddChannelModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          {t('rename')}
+          {t('add')}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -54,7 +54,7 @@ const AddChannelModal = (props) => {
                   name="name"
                   type="input"
                   aria-label="Имя канала"
-                  className={cn('form-control', { 'is-invalid': !isValid })}
+                  className={cn('mb-2 form-control', { 'is-invalid': !isValid })}
                 />
                 <ErrorMessage name="name">
                   { (msg) => (

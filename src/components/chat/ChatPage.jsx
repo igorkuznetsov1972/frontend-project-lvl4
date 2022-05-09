@@ -173,7 +173,7 @@ const ChatPage = () => {
                   {currentChannelMessages.map(({ username, body, id }) => (
                     <div className="text-break mb-2" key={id}>
                       <b>{username}</b>
-                      :
+                      {': '}
                       {body}
                     </div>
                   ))}

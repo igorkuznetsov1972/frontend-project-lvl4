@@ -54,7 +54,7 @@ const RenameChannelModal = (props) => {
                   name="name"
                   type="input"
                   aria-label="Имя канала"
-                  className={cn('form-control', { 'is-invalid': !isValid })}
+                  className={cn('mb-2 form-control', { 'is-invalid': !isValid })}
                 />
                 <ErrorMessage name="name">
                   { (msg) => (
