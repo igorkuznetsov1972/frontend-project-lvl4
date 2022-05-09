@@ -1,11 +1,14 @@
 // @ts-check
 
 const path = require('path');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const webpack = require('webpack');
 
 const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode,
+  plugins: [new webpack.EnvironmentPlugin(['ROLLBAR_KEY'])],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -20,7 +23,6 @@ module.exports = {
     publicPath: '/assets/',
     historyApiFallback: true,
   },
-
   module: {
     rules: [
       {

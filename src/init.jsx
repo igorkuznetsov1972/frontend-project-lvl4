@@ -8,8 +8,9 @@ import ApiProvider from './components/providers/apiProvider.jsx';
 import store from './components/chat/store/store.js';
 import App from './components/App.jsx';
 
+const rollbarToken = process.env.ROLLBAR_KEY;
 const rollbarConfig = {
-  accessToken: 'f5b203bfa926476694a28cf17d1205e1',
+  accessToken: rollbarToken,
   environment: 'production',
   enabled: true,
 };
