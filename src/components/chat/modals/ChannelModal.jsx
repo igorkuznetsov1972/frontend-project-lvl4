@@ -10,7 +10,7 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 
-const channelModal = (props) => {
+const ChannelModal = (props) => {
   const {
     name, show, onHide, action, id = null,
   } = props;
@@ -150,4 +150,4 @@ const channelModal = (props) => {
     </Modal>
   );
 };
-export default channelModal;
+export default ChannelModal;
