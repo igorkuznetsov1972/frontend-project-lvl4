@@ -16,28 +16,24 @@ const ApiProvider = ({ children, socket }) => {
   socket.on('renameChannel', ({ id, name }) => dispatch(renameChannel({ id, name })));
 
   const sendMessage = (message) => {
-    console.log('Sending new message');
     socket.emit('newMessage', message, (response) => {
       console.log('New message sent', response.status);
     });
   };
   const newChannel = (name) => {
     socket.emit('newChannel', { name }, (response) => {
-      console.log(response.status);
       if (response.status === 'ok') toast.success(t('channelcreated'));
       else toast.error(t('general error'));
     });
   };
   const editChannel = (id, name) => {
     socket.emit('renameChannel', { id, name }, (response) => {
-      console.log('Channel renamed', response.status);
       if (response.status === 'ok') toast.success(t('channelrenamed'));
       else toast.error(t('general error'));
     });
   };
   const deleteChannel = (id) => {
     socket.emit('removeChannel', { id }, (response) => {
-      console.log('Channel deleted', response.status);
       if (response.status === 'ok') toast.success(t('channeldeleted'));
       else toast.error(t('general error'));
     });
