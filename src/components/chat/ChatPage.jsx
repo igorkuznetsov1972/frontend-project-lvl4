@@ -13,9 +13,7 @@ import * as filter from 'leo-profanity';
 import { fetchChat, changeCurrentChannel } from './slices/chatSlice';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
-import AddChannelModal from './modals/addChannelModal.jsx';
-import RenameChannelModal from './modals/renameChannelModal.jsx';
-import DeleteChannelModal from './modals/deleteChannelModal.jsx';
+import ChannelModal from './modals/ChannelModal.jsx';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
@@ -57,7 +55,6 @@ const ChatPage = () => {
 
   switch (status) {
     case 'pending': {
-      // const { t } = useTranslation();
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Spinner animation="border" role="status" />
@@ -68,7 +65,6 @@ const ChatPage = () => {
       );
     }
     case 'rejected': {
-    //  const { t } = useTranslation();
       rollbar.error('Network error');
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
@@ -79,7 +75,6 @@ const ChatPage = () => {
       );
     }
     case 'fulfilled': {
-    //  const { t } = useTranslation();
       return (
         <Container fluid className="h-100 my-4 overflow-hidden rounded shadow">
           <Row className="h-100 bg-white flex-md-row">
@@ -93,10 +88,11 @@ const ChatPage = () => {
                   </svg>
                   <span className="visually-hidden">+</span>
                 </button>
-                <AddChannelModal
+                <ChannelModal
+                  name="new"
                   show={newChannelModalShow}
                   onHide={() => setNewChannelModalShow(false)}
-                  newChannel={newChannel}
+                  action={newChannel}
                 />
               </div>
               <Nav
@@ -121,17 +117,19 @@ const ChatPage = () => {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                           <Dropdown.Item eventKey="1" onClick={() => setRenameChannelModalShow(true)}>{t('rename')}</Dropdown.Item>
-                          <RenameChannelModal
+                          <ChannelModal
+                            name="rename"
                             show={renameChannelModalShow}
                             onHide={() => setRenameChannelModalShow(false)}
-                            editChannel={editChannel}
+                            action={editChannel}
                             id={id}
                           />
                           <Dropdown.Item eventKey="2" onClick={() => setDeleteChannelModalShow(true)}>{t('delete')}</Dropdown.Item>
-                          <DeleteChannelModal
+                          <ChannelModal
+                            name="delete"
                             show={deleteChannelModalShow}
                             onHide={() => setDeleteChannelModalShow(false)}
-                            deleteChannel={deleteChannel}
+                            action={deleteChannel}
                             id={id}
                           />
                         </Dropdown.Menu>
