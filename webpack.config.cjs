@@ -8,7 +8,7 @@ const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode,
-  plugins: [new webpack.EnvironmentPlugin(['ROLLBAR_KEY'])],
+  plugins: [new webpack.EnvironmentPlugin({ ROLLBAR_KEY: null })],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
