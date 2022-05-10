@@ -184,7 +184,6 @@ const ChatPage = () => {
                       newMessage: '',
                     }}
                     onSubmit={({ newMessage }, actions) => {
-                      console.log('Submitting new message');
                       sendMessage({
                         body: filter.clean(newMessage),
                         channelId: currentChannelId,

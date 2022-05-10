@@ -16,9 +16,7 @@ const ApiProvider = ({ children, socket }) => {
   socket.on('renameChannel', ({ id, name }) => dispatch(renameChannel({ id, name })));
 
   const sendMessage = (message) => {
-    socket.emit('newMessage', message, (response) => {
-      console.log('New message sent', response.status);
-    });
+    socket.emit('newMessage', message);
   };
   const newChannel = (name) => {
     socket.emit('newChannel', { name }, (response) => {
