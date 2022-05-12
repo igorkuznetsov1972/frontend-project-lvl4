@@ -21,19 +21,19 @@ const ApiProvider = ({ children, socket }) => {
   const newChannel = (name) => {
     socket.emit('newChannel', { name }, (response) => {
       if (response.status === 'ok') toast.success(t('channelcreated'));
-      else toast.error(t('general error'));
+      else toast.error(t('general_error'));
     });
   };
   const editChannel = (id, name) => {
     socket.emit('renameChannel', { id, name }, (response) => {
       if (response.status === 'ok') toast.success(t('channelrenamed'));
-      else toast.error(t('general error'));
+      else toast.error(t('general_error'));
     });
   };
   const deleteChannel = (id) => {
     socket.emit('removeChannel', { id }, (response) => {
       if (response.status === 'ok') toast.success(t('channeldeleted'));
-      else toast.error(t('general error'));
+      else toast.error(t('general_error'));
     });
   };
   return (
