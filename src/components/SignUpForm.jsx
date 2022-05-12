@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import {
   Alert, Container, Row, Col, Card, Button,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +25,7 @@ const SignUpSchema = Yup.object().shape({
     .min(6, 'short6')
     .required('required'),
   passwordConfirmation: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+    .oneOf([Yup.ref('password'), null], 'passwords_not_match'),
 });
 
 const SignUpForm = () => {
@@ -57,12 +58,13 @@ const SignUpForm = () => {
                     const response = await axios.post(routes.signupPath(), values);
                     const { token } = response.data;
                     const { username } = values;
-                    localStorage.setItem('user', JSON.stringify({ token, username }));
-                    auth.setUser({ token, username });
-                    navigate('/');
+                    auth.login(token, username);
+                    navigate(routes.rootPage());
                   } catch (e) {
-                    setValidated(false);
-                    setErrors({ username: 'Username already exists' });
+                    if (e.response?.status === 409) {
+                      setValidated(false);
+                      setErrors({ username: 'username_exists' });
+                    } else toast.error(t('network_error'));
                   }
                 }}
               >
@@ -103,7 +105,7 @@ const SignUpForm = () => {
                       type="passwordConfirmation"
                       className={fieldClass}
                     />
-                    <label className="form-label" htmlFor="passwordConfirmation">{t('confirm password')}</label>
+                    <label className="form-label" htmlFor="passwordConfirmation">{t('confirm_password')}</label>
                     <ErrorMessage name="passwordConfirmation" render={(msg) => <Alert variant="danger">{t(msg)}</Alert>} />
                   </div>
                   <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('dosignup')}</Button>
