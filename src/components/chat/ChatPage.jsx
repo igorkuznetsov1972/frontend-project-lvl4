@@ -69,7 +69,7 @@ const ChatPage = () => {
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Alert variant="danger">
-            <Alert.Heading>{t('network error')}</Alert.Heading>
+            <Alert.Heading>{t('network_error')}</Alert.Heading>
           </Alert>
         </Container>
       );
@@ -205,7 +205,7 @@ const ChatPage = () => {
                             name="newMessage"
                             type="text"
                             aria-label="Новое сообщение"
-                            placeholder={t('new message')}
+                            placeholder={t('new_message')}
                             className="border-0 p-0 ps-2 form-control"
                           />
                           <div className="input-group-append">
@@ -230,7 +230,7 @@ const ChatPage = () => {
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Alert variant="danger">
-            <Alert.Heading>{t('general error')}</Alert.Heading>
+            <Alert.Heading>{t('general_error')}</Alert.Heading>
           </Alert>
         </Container>
       );
