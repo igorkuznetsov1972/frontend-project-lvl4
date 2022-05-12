@@ -45,14 +45,13 @@ const LoginForm = () => {
                     const response = await axios.post(routes.loginPath(), values);
                     const { token } = response.data;
                     const { username } = values;
-                    localStorage.setItem('user', JSON.stringify({ token, username }));
-                    auth.setUser({ token, username });
-                    navigate('/');
+                    auth.login(token, username);
+                    navigate(routes.rootPage());
                   } catch (e) {
                     setValidated(false);
                     rollbar.error('Error loggin in', e);
-                    if (e.message === 'Network Error') toast.error(t('network error'));
-                    else setErrors({ password: t('Invalid username or password') });
+                    if (e.message === 'Network Error') toast.error(t('network_error'));
+                    else setErrors({ password: t('invalid_username_password') });
                   }
                 }}
               >
@@ -88,7 +87,7 @@ const LoginForm = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>
-                  { t('not registered') }
+                  { t('not_registered') }
                   {' '}
                 </span>
                 <Link to="/signup">{t('signup')}</Link>
