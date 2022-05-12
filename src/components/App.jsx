@@ -16,6 +16,7 @@ import useAuth from '../hooks/useAuth';
 import LoginForm from './LoginForm.jsx';
 import SignUpForm from './SignUpForm.jsx';
 import NotFoundPage from './NotFound.jsx';
+import routes from '../routes.js';
 
 const ChatRoute = () => {
   const auth = useAuth();
@@ -40,14 +41,14 @@ const App = () => {
       <div className="d-flex flex-column h-100">
         <Navbar className="shadow-sm" variant="light" bg="light" expand="lg">
           <Container>
-            <Navbar.Brand as={Link} to="/">{t('root')}</Navbar.Brand>
+            <Navbar.Brand as={Link} to={routes.rootPage()}>{t('root')}</Navbar.Brand>
           </Container>
           <AuthButton />
         </Navbar>
         <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/" element={<ChatRoute />}>
+          <Route path={routes.loginPage()} element={<LoginForm />} />
+          <Route path={routes.signupPage()} element={<SignUpForm />} />
+          <Route path={routes.rootPage()} element={<ChatRoute />}>
             <Route path="" element={<ChatPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
