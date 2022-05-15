@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import {
   addChannel, removeChannel, renameChannel, addMessage,
-} from '../chat/slices/chatSlice.js';
+} from '../../slices/chatSlice.js';
 import { ApiContext } from '../../contexts/index.jsx';
 
 const ApiProvider = ({ children, socket }) => {

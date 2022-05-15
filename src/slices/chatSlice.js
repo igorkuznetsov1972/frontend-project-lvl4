@@ -1,12 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import routes from '../../../routes.js';
+import routes from '../routes.js';
+
+const defaultChannel = 1;
 
 const initialState = {
   channels: [],
   messages: [],
-  currentChannelId: '',
+  currentChannelId: defaultChannel,
   status: 'pending',
 };
 const authorization = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
@@ -31,7 +33,7 @@ const chatSlice = createSlice({
       const channelId = Number(payload);
       state.channels = state.channels.filter((c) => c.id !== channelId);
       state.messages = state.messages.filter((m) => m.channelId !== channelId);
-      state.currentChannelId = 1;
+      state.currentChannelId = defaultChannel;
     },
     renameChannel: (state, { payload }) => {
       const { id, name } = payload;
@@ -45,17 +47,19 @@ const chatSlice = createSlice({
       state.messages.push(message);
     },
   },
-  extraReducers: {
-    [fetchChat.fulfilled]: (state, { payload }) => {
-      const { messages, channels, currentChannelId } = payload;
-      state.currentChannelId = currentChannelId;
-      state.channels = channels;
-      state.messages = messages;
-      state.status = 'fulfilled';
-    },
-    [fetchChat.rejected]: (state) => {
-      state.status = 'rejected';
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchChat.fulfilled, (state, { payload }) => {
+        const { messages, channels, currentChannelId } = payload;
+        state.currentChannelId = currentChannelId;
+        state.channels = channels;
+        state.messages = messages;
+        state.status = 'fulfilled';
+      })
+      .addCase(fetchChat.rejected, (state) => {
+        state.status = 'rejected';
+      });
+    //  .addDefaultCase((state, action) => {});
   },
 });
 
