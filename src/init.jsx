@@ -8,10 +8,13 @@ import AuthProvider from './components/providers/authProvider.jsx';
 import ApiProvider from './components/providers/apiProvider.jsx';
 import App from './components/App.jsx';
 import chatSliceReducer from './slices/chatSlice.js';
+import modalSliceReducer from './slices/modalSlice.js'
+
 
 const store = configureStore({
   reducer: {
     chat: chatSliceReducer,
+    modal: modalSliceReducer,
   },
 });
 
