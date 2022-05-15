@@ -135,6 +135,7 @@ const ChannelModal = (props) => {
 
   return (
     <Modal
+      name={name}
       show={show}
       onHide={onHide}
     >
