@@ -10,7 +10,7 @@ import {
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
-import { fetchChat, changeCurrentChannel } from './slices/chatSlice';
+import { fetchChat, changeCurrentChannel } from '../../slices/chatSlice';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
 import ChannelModal from './modals/ChannelModal.jsx';
