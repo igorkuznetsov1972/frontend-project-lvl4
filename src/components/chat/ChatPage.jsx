@@ -11,25 +11,33 @@ import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
 import { fetchChat, changeCurrentChannel } from '../../slices/chatSlice';
+import { showModal, hideModal } from '../../slices/modalSlice';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
 import ChannelModal from './modals/ChannelModal.jsx';
+import {
+  getModalState,
+  getCurrentChannel,
+  getChannels,
+  getCurrentChannelMessages,
+  getfetchStatus,
+} from './selectors';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
-
-  const {
-    sendMessage, newChannel, editChannel, deleteChannel,
-  } = useChat();
-  const auth = useAuth();
-  const currentUser = auth.user.username;
-
   useEffect(() => {
     dispatch(fetchChat());
   }, [dispatch]);
 
+  const auth = useAuth();
+  const currentUser = auth.user.username;
+
   const messageRef = useRef(null);
   const rollbar = useRollbar();
+
+  const {
+    sendMessage, newChannel, editChannel, deleteChannel,
+  } = useChat();
 
   const handleClick = (id) => (e) => {
     e.preventDefault();
@@ -37,15 +45,23 @@ const ChatPage = () => {
     messageRef.current.focus();
   };
 
-  const {
-    channels, messages, currentChannelId, status,
-  } = useSelector((state) => state.chat);
-  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
+  const handleShowNewModal = () => dispatch(showModal('new'));
+  const handleShowRenameModal = () => dispatch(showModal('rename'));
+  const handleShowDeleteModal = () => dispatch(showModal('delete'));
 
-  const [newChannelModalShow, setNewChannelModalShow] = React.useState(false);
-  const [renameChannelModalShow, setRenameChannelModalShow] = React.useState(false);
-  const [deleteChannelModalShow, setDeleteChannelModalShow] = React.useState(false);
+  const handleHideNewModal = () => dispatch(hideModal('new'));
+  const handleHideRenameModal = () => dispatch(hideModal('rename'));
+  const handleHideDeleteModal = () => dispatch(hideModal('delete'));
 
+  const channels = useSelector((state) => getChannels(state));
+  const currentChannelId = useSelector((state) => getCurrentChannel(state));
+  const status = useSelector((state) => getfetchStatus(state));
+  const currentChannelMessages = useSelector(getCurrentChannelMessages);
+
+  const modalState = useSelector((state) => getModalState(state));
+  const modalShowNew = modalState.new;
+  const modalShowRename = modalState.rename;
+  const modalShowDelete = modalState.delete;
   const isActiveChannel = (id) => id === currentChannelId;
 
   filter.clearList();
@@ -81,7 +97,7 @@ const ChatPage = () => {
             <Col xs={4} md={2} className="border-end pt-5 px-0 bg-light">
               <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
                 <span>{t('channels')}</span>
-                <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => setNewChannelModalShow(true)}>
+                <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleShowNewModal}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
@@ -90,8 +106,8 @@ const ChatPage = () => {
                 </button>
                 <ChannelModal
                   name="new"
-                  show={newChannelModalShow}
-                  onHide={() => setNewChannelModalShow(false)}
+                  show={modalShowNew}
+                  onHide={handleHideNewModal}
                   action={newChannel}
                 />
               </div>
@@ -116,19 +132,19 @@ const ChatPage = () => {
                           <span className="visually-hidden">Управление каналом</span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item eventKey="1" onClick={() => setRenameChannelModalShow(true)}>{t('rename')}</Dropdown.Item>
+                          <Dropdown.Item eventKey="1" onClick={handleShowRenameModal}>{t('rename')}</Dropdown.Item>
                           <ChannelModal
                             name="rename"
-                            show={renameChannelModalShow}
-                            onHide={() => setRenameChannelModalShow(false)}
+                            show={modalShowRename}
+                            onHide={handleHideRenameModal}
                             action={editChannel}
                             id={id}
                           />
-                          <Dropdown.Item eventKey="2" onClick={() => setDeleteChannelModalShow(true)}>{t('delete')}</Dropdown.Item>
+                          <Dropdown.Item eventKey="2" onClick={handleShowDeleteModal}>{t('delete')}</Dropdown.Item>
                           <ChannelModal
                             name="delete"
-                            show={deleteChannelModalShow}
-                            onHide={() => setDeleteChannelModalShow(false)}
+                            show={modalShowDelete}
+                            onHide={handleHideDeleteModal}
                             action={deleteChannel}
                             id={id}
                           />
