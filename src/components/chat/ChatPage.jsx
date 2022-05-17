@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRollbar } from '@rollbar/react';
 import {
-  Container, Row, Col, Nav, Button, Spinner, Alert, ButtonGroup, Dropdown,
+  Container, Row, Col, Nav, Spinner, Alert,
 } from 'react-bootstrap';
 import {
   Formik, Form, Field,
@@ -10,7 +10,7 @@ import {
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
-import { fetchChat, changeCurrentChannel } from '../../slices/chat';
+import { fetchChat } from '../../slices/chat';
 import { showModal, hideModal } from '../../slices/modal';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
@@ -22,6 +22,8 @@ import {
   getCurrentChannelMessages,
   getfetchStatus,
 } from './selectors';
+import Channels from './Channels.jsx';
+import Messages from './Messages.jsx';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
@@ -36,22 +38,11 @@ const ChatPage = () => {
   const rollbar = useRollbar();
 
   const {
-    sendMessage, newChannel, editChannel, deleteChannel,
+    sendMessage, newChannel,
   } = useChat();
 
-  const handleClick = (id) => (e) => {
-    e.preventDefault();
-    dispatch(changeCurrentChannel(id));
-    messageRef.current.focus();
-  };
-
   const handleShowNewModal = () => dispatch(showModal('new'));
-  const handleShowRenameModal = () => dispatch(showModal('rename'));
-  const handleShowDeleteModal = () => dispatch(showModal('delete'));
-
   const handleHideNewModal = () => dispatch(hideModal('new'));
-  const handleHideRenameModal = () => dispatch(hideModal('rename'));
-  const handleHideDeleteModal = () => dispatch(hideModal('delete'));
 
   const channels = useSelector((state) => getChannels(state));
   const currentChannelId = useSelector((state) => getCurrentChannel(state));
@@ -60,9 +51,6 @@ const ChatPage = () => {
 
   const modalState = useSelector((state) => getModalState(state));
   const modalShowNew = modalState.new;
-  const modalShowRename = modalState.rename;
-  const modalShowDelete = modalState.delete;
-  const isActiveChannel = (id) => id === currentChannelId;
 
   filter.clearList();
   filter.add(filter.getDictionary('en'));
@@ -117,54 +105,7 @@ const ChatPage = () => {
                 className="px-2 d-inline text-truncate"
                 variant="pills"
               >
-                { channels.map(({ id, name, removable }) => (removable
-                  ? (
-                    <Nav.Item as="li" className="w-100" key={name}>
-                      <Dropdown as={ButtonGroup} className="w-100 d-flex d-inline">
-                        <Button
-                          variant={isActiveChannel(id) ? 'secondary' : 'light'}
-                          className="w-100 rounded-0 text-start text-truncate"
-                          onClick={handleClick(id)}
-                        >
-                          {`#${name}`}
-                        </Button>
-                        <Dropdown.Toggle split name="Управление каналом" variant={isActiveChannel(id) ? 'secondary' : 'light'} id={id.toString()}>
-                          <span className="visually-hidden">Управление каналом</span>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item eventKey="1" onClick={handleShowRenameModal}>{t('rename')}</Dropdown.Item>
-                          <ChannelModal
-                            name="rename"
-                            show={modalShowRename}
-                            onHide={handleHideRenameModal}
-                            action={editChannel}
-                            id={id}
-                          />
-                          <Dropdown.Item eventKey="2" onClick={handleShowDeleteModal}>{t('delete')}</Dropdown.Item>
-                          <ChannelModal
-                            name="delete"
-                            show={modalShowDelete}
-                            onHide={handleHideDeleteModal}
-                            action={deleteChannel}
-                            id={id}
-                          />
-                        </Dropdown.Menu>
-
-                      </Dropdown>
-                    </Nav.Item>
-                  )
-                  : (
-                    <Nav.Item as="li" className="w-100" key={name}>
-                      <Button
-                        className="w-100 rounded-0 text-start"
-                        variant={isActiveChannel(id) ? 'secondary' : 'light'}
-                        key={id.toString()}
-                        onClick={handleClick(id)}
-                      >
-                        {`#${name}`}
-                      </Button>
-                    </Nav.Item>
-                  ))) }
+                <Channels channels={channels} messageRef={messageRef} />
               </Nav>
             </Col>
             <Col className="p-0 h-100">
@@ -184,13 +125,7 @@ const ChatPage = () => {
                   </span>
                 </div>
                 <div id="messages-box" className="chat-messages overflow-auto px-5">
-                  {currentChannelMessages.map(({ username, body, id }) => (
-                    <div className="text-break mb-2" key={id}>
-                      <b>{username}</b>
-                      {': '}
-                      {body}
-                    </div>
-                  ))}
+                  <Messages messages={currentChannelMessages} />
                 </div>
                 <div className="mt-auto px-5 py-3">
                   <Formik
