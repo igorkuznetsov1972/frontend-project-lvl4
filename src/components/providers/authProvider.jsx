@@ -4,7 +4,6 @@ import { AuthContext } from '../../contexts/index.jsx';
 const AuthProvider = ({ children }) => {
   const isUser = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(isUser);
-  const [signinUp, setSigninUp] = useState(false);
   const login = (token, username) => {
     localStorage.setItem('user', JSON.stringify({ token, username }));
     setUser({ token, username });
@@ -16,7 +15,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      logOut, user, setUser, isUser, signinUp, setSigninUp, login,
+      logOut, user, setUser, isUser, login,
     }}
     >
       {children}
