@@ -59,7 +59,6 @@ const chatSlice = createSlice({
       .addCase(fetchChat.rejected, (state) => {
         state.status = 'rejected';
       });
-    //  .addDefaultCase((state, action) => {});
   },
 });
 

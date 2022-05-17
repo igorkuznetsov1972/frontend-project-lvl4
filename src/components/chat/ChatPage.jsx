@@ -10,8 +10,8 @@ import {
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
-import { fetchChat, changeCurrentChannel } from '../../slices/chatSlice';
-import { showModal, hideModal } from '../../slices/modalSlice';
+import { fetchChat, changeCurrentChannel } from '../../slices/chat';
+import { showModal, hideModal } from '../../slices/modal';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
 import ChannelModal from './modals/ChannelModal.jsx';
@@ -242,7 +242,6 @@ const ChatPage = () => {
       );
     }
     default: {
-      // const { t } = useTranslation();
       return (
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
           <Alert variant="danger">
