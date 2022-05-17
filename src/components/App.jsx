@@ -21,7 +21,7 @@ import routes from '../routes.js';
 const ChatRoute = () => {
   const auth = useAuth();
   return (
-    auth.isUser ? <ChatPage /> : <Navigate to="/login" />
+    auth.isUser ? <ChatPage /> : <Navigate to={routes.loginPage()} />
   );
 };
 
