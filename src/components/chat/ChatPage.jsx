@@ -37,7 +37,6 @@ const ChatPage = () => {
       const response = await axios.get(routes.chatPath(), { headers: { Authorization: `Bearer ${auth.user.token}` } });
       dispatch(getServerState({ ...response.data, status: 'fulfilled' }));
     } catch (e) {
-      console.log(e.response.status);
       if (e.response.status === 401) {
         auth.logOut();
       } else dispatch(getServerState({ status: 'rejected' }));
