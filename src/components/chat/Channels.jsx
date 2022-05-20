@@ -61,7 +61,7 @@ const Channels = (props) => {
                 <span className="visually-hidden">Управление каналом</span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item eventKey="1" onClick={ handleShowModal('rename') }>{ t('rename') }</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={handleShowModal('rename')}>{ t('rename') }</Dropdown.Item>
                 {console.log(id)}
                 <ChannelModal
                   name="rename"

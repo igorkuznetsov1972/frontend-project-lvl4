@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRollbar } from '@rollbar/react';
@@ -39,7 +40,6 @@ const ChatPage = () => {
       console.log(e.response.status);
       if (e.response.status === 401) {
         auth.logOut();
-        fetchChat();
       } else dispatch(getServerState({ status: 'rejected' }));
     }
   };
