@@ -27,15 +27,11 @@ const Channels = (props) => {
   const currentChannelId = useSelector((state) => getCurrentChannel(state));
 
   const modalState = useSelector((state) => getModalState(state));
-  const modalShowRename = modalState.rename;
-  const modalShowDelete = modalState.delete;
 
   const isActiveChannel = (id) => id === currentChannelId;
 
-  const handleShowRenameModal = () => dispatch(showModal('rename'));
-  const handleShowDeleteModal = () => dispatch(showModal('delete'));
-  const handleHideRenameModal = () => dispatch(hideModal('rename'));
-  const handleHideDeleteModal = () => dispatch(hideModal('delete'));
+  const handleShowModal = (type) => () => dispatch(showModal(type));
+  const handleHideModal = (type) => () => dispatch(hideModal(type));
   const handleClick = (id) => (e) => {
     e.preventDefault();
     dispatch(changeCurrentChannel(id));
@@ -65,19 +61,20 @@ const Channels = (props) => {
                 <span className="visually-hidden">Управление каналом</span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item eventKey="1" onClick={handleShowRenameModal}>{ t('rename') }</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={ handleShowModal('rename') }>{ t('rename') }</Dropdown.Item>
+                {console.log(id)}
                 <ChannelModal
                   name="rename"
-                  show={modalShowRename}
-                  onHide={handleHideRenameModal}
+                  show={modalState.rename}
+                  onHide={handleHideModal('rename')}
                   action={editChannel}
                   id={id}
                 />
-                <Dropdown.Item eventKey="2" onClick={handleShowDeleteModal}>{ t('delete') }</Dropdown.Item>
+                <Dropdown.Item eventKey="2" onClick={handleShowModal('delete')}>{ t('delete') }</Dropdown.Item>
                 <ChannelModal
                   name="delete"
-                  show={modalShowDelete}
-                  onHide={handleHideDeleteModal}
+                  show={modalState.delete}
+                  onHide={handleHideModal('delete')}
                   action={deleteChannel}
                   id={id}
                 />
