@@ -7,8 +7,11 @@ import i18n from './i18n';
 import AuthProvider from './components/providers/authProvider.jsx';
 import ApiProvider from './components/providers/apiProvider.jsx';
 import App from './components/App.jsx';
-import chatSliceReducer from './slices/chat.js';
+// import chatSliceReducer from './slices/chat.js';
 import modalSliceReducer from './slices/modal.js';
+import chatSliceReducer, {
+  addChannel, removeChannel, renameChannel, addMessage,
+} from './slices/chat.js';
 
 const store = configureStore({
   reducer: {
@@ -24,20 +27,26 @@ const rollbarConfig = {
   enabled: true,
 };
 
-const init = async (socket) => (
-  <Provider store={store}>
-    <RollbarProvider config={rollbarConfig}>
-      <ErrorBoundary>
-        <I18nextProvider i18n={await i18n}>
-          <ApiProvider socket={socket}>
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          </ApiProvider>
-        </I18nextProvider>
-      </ErrorBoundary>
-    </RollbarProvider>
-  </Provider>
-);
+const init = async (socket) => {
+  socket.on('newMessage', (message) => store.dispatch(addMessage(message)));
+  socket.on('newChannel', (channel) => store.dispatch(addChannel(channel)));
+  socket.on('removeChannel', ({ id }) => store.dispatch(removeChannel(id)));
+  socket.on('renameChannel', ({ id, name }) => store.dispatch(renameChannel({ id, name })));
+  return (
+    <Provider store={store}>
+      <RollbarProvider config={rollbarConfig}>
+        <ErrorBoundary>
+          <I18nextProvider i18n={await i18n}>
+            <ApiProvider socket={socket}>
+              <AuthProvider>
+                <App />
+              </AuthProvider>
+            </ApiProvider>
+          </I18nextProvider>
+        </ErrorBoundary>
+      </RollbarProvider>
+    </Provider>
+  );
+};
 
 export default init;

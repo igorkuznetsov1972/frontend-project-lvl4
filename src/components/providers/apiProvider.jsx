@@ -1,20 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import {
-  addChannel, removeChannel, renameChannel, addMessage,
-} from '../../slices/chat.js';
+
 import { ApiContext } from '../../contexts/index.jsx';
 
 const ApiProvider = ({ children, socket }) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  socket.on('newMessage', (message) => dispatch(addMessage(message)));
-  socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
-  socket.on('removeChannel', ({ id }) => dispatch(removeChannel(id)));
-  socket.on('renameChannel', ({ id, name }) => dispatch(renameChannel({ id, name })));
-
   const sendMessage = (message) => {
     socket.emit('newMessage', message);
   };
