@@ -10,7 +10,8 @@ import {
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
-import { fetchChat } from '../../slices/chat';
+import axios from 'axios';
+import { getServerState } from '../../slices/chat';
 import { showModal, hideModal } from '../../slices/modal';
 import useChat from '../../hooks/useChat';
 import useAuth from '../../hooks/useAuth';
@@ -22,16 +23,28 @@ import {
   getCurrentChannelMessages,
   getfetchStatus,
 } from './selectors';
+import routes from '../../routes';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchChat());
-  }, [dispatch]);
-
   const auth = useAuth();
+
+  const fetchChat = () => async () => {
+    try {
+      const response = await axios.get(routes.chatPath(), { headers: { Authorization: `Bearer ${auth.user.token}` } });
+      dispatch(getServerState({ ...response.data, status: 'fulfilled' }));
+    } catch (e) {
+      console.log(e.response.status);
+      if (e.response.status === 401) {
+        auth.logOut();
+        fetchChat();
+      } else dispatch(getServerState({ status: 'rejected' }));
+    }
+  };
+  useEffect(fetchChat(), [auth.user]);
+
   const currentUser = auth.user.username;
 
   const messageRef = useRef(null);

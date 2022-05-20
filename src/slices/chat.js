@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import routes from '../routes.js';
+import { createSlice } from '@reduxjs/toolkit';
 
 const defaultChannel = 1;
 
@@ -11,17 +9,20 @@ const initialState = {
   currentChannelId: defaultChannel,
   status: 'pending',
 };
-const authorization = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
-
-const fetchChat = createAsyncThunk('chat/fetchChat', async () => {
-  const response = await axios.get(routes.chatPath(), { headers: { Authorization: `Bearer ${authorization}` } });
-  return response.data;
-});
 
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
+    getServerState: (state, { payload }) => {
+      const {
+        messages, channels, currentChannelId, status,
+      } = payload;
+      state.currentChannelId = currentChannelId;
+      state.channels = channels;
+      state.messages = messages;
+      state.status = status;
+    },
     changeCurrentChannel: (state, { payload }) => {
       state.currentChannelId = payload;
     },
@@ -47,23 +48,16 @@ const chatSlice = createSlice({
       state.messages.push(message);
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchChat.fulfilled, (state, { payload }) => {
-        const { messages, channels, currentChannelId } = payload;
-        state.currentChannelId = currentChannelId;
-        state.channels = channels;
-        state.messages = messages;
-        state.status = 'fulfilled';
-      })
-      .addCase(fetchChat.rejected, (state) => {
-        state.status = 'rejected';
-      });
-  },
 });
 
 export const {
-  getChat, changeCurrentChannel, addChannel, removeChannel, renameChannel, addMessage,
+  getChat,
+  changeCurrentChannel,
+  addChannel,
+  removeChannel,
+  renameChannel,
+  addMessage,
+  getServerState,
 } = chatSlice.actions;
-export { fetchChat };
+
 export default chatSlice.reducer;
