@@ -57,12 +57,12 @@ const ChatPage = () => {
   const handleShowNewModal = () => dispatch(showModal('new'));
   const handleHideNewModal = () => dispatch(hideModal('new'));
 
-  const channels = useSelector((state) => getChannels(state));
-  const currentChannelId = useSelector((state) => getCurrentChannel(state));
-  const status = useSelector((state) => getfetchStatus(state));
+  const channels = useSelector(getChannels);
+  const currentChannelId = useSelector(getCurrentChannel);
+  const status = useSelector(getfetchStatus);
   const currentChannelMessages = useSelector(getCurrentChannelMessages);
 
-  const modalState = useSelector((state) => getModalState(state));
+  const modalState = useSelector(getModalState);
   const modalShowNew = modalState.new;
 
   filter.clearList();

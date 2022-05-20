@@ -9,12 +9,15 @@ import cn from 'classnames';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import {
+  getChannels,
+} from '../selectors';
 
 const ChannelModal = (props) => {
   const {
     name, show, onHide, action, id = null,
   } = props;
-  const { channels } = useSelector((state) => state.chat);
+  const channels = useSelector(getChannels);
   const channelsNames = channels.map(({ name }) => name);
   const { t } = useTranslation();
   const channelNameSchema = Yup.object().shape({
