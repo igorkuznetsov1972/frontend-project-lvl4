@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRollbar } from '@rollbar/react';
@@ -32,17 +31,18 @@ const ChatPage = () => {
   const dispatch = useDispatch();
   const auth = useAuth();
 
-  const fetchChat = () => async () => {
-    try {
-      const response = await axios.get(routes.chatPath(), { headers: { Authorization: `Bearer ${auth.user.token}` } });
-      dispatch(getServerState({ ...response.data, status: 'fulfilled' }));
-    } catch (e) {
-      if (e.response.status === 401) {
-        auth.logOut();
-      } else dispatch(getServerState({ status: 'rejected' }));
-    }
-  };
-  useEffect(fetchChat(), [auth.user]);
+  useEffect(() => {
+    const fetchChat = async () => {
+      try {
+        const response = await axios.get(routes.chatPath(), { headers: { Authorization: `Bearer ${auth.user.token}` } });
+        dispatch(getServerState({ ...response.data, status: 'fulfilled' }));
+      } catch (e) {
+        if (e.response?.status === 401) {
+          auth.logOut();
+        } else dispatch(getServerState({ status: 'rejected' }));
+      }
+    }; fetchChat();
+  }, [auth, dispatch]);
 
   const currentUser = auth.user.username;
 
