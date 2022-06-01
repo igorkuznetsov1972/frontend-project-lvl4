@@ -9,7 +9,10 @@ Simple Slack-like chat app. Users can sign up, persistently login, create, delet
 This app uses React for UI, Redux-JS-toolkit for state management, Axios and Soket.io to communicate with the server, JWT for authorization, i18next for internationalization, React-Bootstrap and React-toastify for styling.
 
 Just clone this repository and run:
+
+```
     make install
     make start
+```
 
 [App deployed at Heroku](https://mysterious-stream-16330.herokuapp.com/)
