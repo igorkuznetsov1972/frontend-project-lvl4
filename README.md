@@ -1,6 +1,6 @@
 # Simple Slack-like chat app
 
-[![Actions Status](https://github.com/igorkuznetsov1972/frontend-project-lvl4/workflows/hexlet-check/badge.svg?branch=main)](https://github.com/igorkuznetsov1972/frontend-project-lvl4/actions?query=branch:main)
+[![Node CI](https://github.com/igorkuznetsov1972/frontend-project-lvl4/actions/workflows/nodejs.yml/badge.svg)](https://github.com/igorkuznetsov1972/frontend-project-lvl4/actions/workflows/nodejs.yml)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/3d5d30ccc62089095fc2/maintainability)](https://codeclimate.com/github/igorkuznetsov1972/frontend-project-lvl4/maintainability)
 
@@ -10,7 +10,7 @@ This app uses React for UI, Redux-JS-toolkit for state management, Axios and Sok
 
 Just clone this repository and run:
 
-```
+```bash
     make install
     make start
 ```
